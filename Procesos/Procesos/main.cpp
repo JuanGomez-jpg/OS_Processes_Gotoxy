@@ -59,13 +59,80 @@ void changeFont_Console_Size(int size)
 
 }
 
+void invocarMenu ()
+{
+    // Imprimir las filas de los bordes
+    SetColor(4); // Rojo
+    for (int i(1) ; i < 100 ; ++i)
+    {
+        gotoxy(i,0); printf("%c",205);
+        gotoxy(i,26); printf("%c", 205);
+        gotoxy(i,2); printf("%c", 205);
+    }
+    // Imprimir las columnas de los bordes
+    SetColor(6); // Amarillo
+    for (int i (1) ; i < 26 ; ++i)
+    {
+        gotoxy(0,i); printf("%c", 186);
+        gotoxy(100,i); printf("%c", 186);
+    }
+
+    SetColor(15); // Blanco
+    // Título
+    gotoxy(39,1); printf("Administraci%cn de Procesos", 162);
+
+    SetColor(4); // Rojo
+    //Esquina sup. izquierda
+    gotoxy(0,0); printf("%c",201);
+    //Inter. ziquierda
+    gotoxy(0,2); printf("%c",204);
+    //Esquina inf. izquierda
+    gotoxy(0,26); printf("%c", 200);
+
+    //Esquina sup. derecha
+    gotoxy(100,0); printf("%c",187);
+    //Inter. derecha
+    gotoxy(100,2); printf("%c",185);
+    //Esquina inf. derecha
+    gotoxy(100,26); printf("%c", 188);
+
+    // Cuadro de los procesos
+    for (int i(2) ; i < 25 ; ++i)
+    {
+        gotoxy(i,4); printf("%c",205);
+        gotoxy(i,6); printf("%c",205);
+    }
+    // Columnas de los procesos
+    gotoxy(1,5); printf("%c",186);
+    gotoxy(6,5); printf("%c",186);
+    gotoxy(15,5); printf("%c",186);
+    gotoxy(26,5); printf("%c",186);
+
+    // Intersecciones de los procesos
+    //gotoxy(1,5); printf("%c",186);
+
+
+    SetColor(15); // Blanco
+    //Datos de los Procesos
+    gotoxy(3,3); cout<<"Datos de los procesos";
+    gotoxy(3,5); cout<<"ID";
+    gotoxy(8,5); cout<<"Inicio";
+    gotoxy(17,5); cout<<"Duraci\242n ";
+
+}
+
 int main()
 {
-    system("color F0");
+    system("pause");
+    system("cls");
+
+    invocarMenu();
     //changeFont_Console_Size(36);
 
     //Color(37, 46);
+    gotoxy(30, 10); getchar();
 
+    cout<<endl;
 
     return 0;
 }
