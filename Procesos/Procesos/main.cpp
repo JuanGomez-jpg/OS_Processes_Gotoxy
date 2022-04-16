@@ -176,7 +176,37 @@ bool validarEntradaMenu(string resp)
     return false;
 }
 
-void advertenciaError()
+bool validarEntradaProceso(string resp)
+{
+    // Variable bandera
+    bool val = false;
+    // Arreglo de char para almacenar la entrada
+    char a[resp.size()];
+    //Tamaño de la entrada
+    int size = resp.size();
+
+    for (int i(0) ; i < size; ++i) a[i] = resp.at(i);
+
+    for (int i(0) ; i < size; ++i)
+    {
+        if ( (a[i] >= 0 && a[i] <= 47) || (a[i] >= 58)) val = true;
+    }
+
+    if (!val)
+    {
+        int respAux = atoi(a);
+        if (respAux <= 0)
+        {
+            val = true;
+        }
+    }
+
+    if (val) return true;
+
+    return false;
+}
+
+void advertenciaErrorMenu()
 {
     SetColor(4); // Rojo
     // Filas y columnas del mensaje de error
@@ -201,6 +231,105 @@ void advertenciaError()
     gotoxy(58,17); cout<<"ERROR";
     gotoxy(50,18); cout<<"Debe ingresar un valor";
     gotoxy(55,19); cout<<"entre 1 y 5";
+    Sleep(3000);
+    // Limpiar el mensaje de error
+    for (int i(46) ; i < 76 ; ++i)
+    {
+        gotoxy(i,16); cout<<" ";
+        gotoxy(i,17); cout<<" ";
+        gotoxy(i,18); cout<<" ";
+        gotoxy(i,19); cout<<" ";
+        gotoxy(i,20); cout<<" ";
+    }
+    // Limpiar respuesta
+    for (int i (70) ; i < 119 ; ++i)
+    {
+        gotoxy(i, 9); cout<<" ";
+    }
+    SetColor(15); // Blanco
+}
+
+void advertenciaErrorProcesos(int ent)
+{
+    SetColor(4); // Rojo
+    // Filas y columnas del mensaje de error
+    for (int i(48) ; i < 75 ; ++i)
+    {
+        gotoxy(i,16); printf("%c",205);
+        gotoxy(i,20); printf("%c",205);
+
+        for (int j(17) ; j < 20 ; ++j)
+        {
+            gotoxy(47,j); printf("%c",186);
+            gotoxy(75,j); printf("%c",186);
+        }
+    }
+    // Esquinas del mensaje de error
+    gotoxy(47,16); printf("%c",201); // Sup. izquierda
+    gotoxy(75,16); printf("%c", 187); // Sup. derecha
+    gotoxy(47,20); printf("%c",200); // Inf. izquierda
+    gotoxy(75,20); printf("%c",188); // Inf. derecha
+
+    // Mensaje de error
+    gotoxy(59,17); cout<<"ERROR";
+    gotoxy(50,18); cout<<"Debe ingresar un n\243mero";
+    if (ent == 1)
+    {
+        gotoxy(53,19); cout<<"mayor o igual a 0";
+        // Limpiar respuesta
+        for (int i (68) ; i < 119 ; ++i)
+        {
+            gotoxy(i, 5); cout<<" ";
+        }
+    }
+    else
+    {
+        gotoxy(53,19); cout<<"mayor o igual a 1";
+        // Limpiar respuesta
+        for (int i (70) ; i < 119 ; ++i)
+        {
+            gotoxy(i, 7); cout<<" ";
+        }
+    }
+
+    Sleep(3000);
+    // Limpiar el mensaje de error
+    for (int i(46) ; i < 76 ; ++i)
+    {
+        gotoxy(i,16); cout<<" ";
+        gotoxy(i,17); cout<<" ";
+        gotoxy(i,18); cout<<" ";
+        gotoxy(i,19); cout<<" ";
+        gotoxy(i,20); cout<<" ";
+    }
+    SetColor(15); // Blanco
+}
+
+void advertenciaErrorMaximoProcesos()
+{
+    SetColor(4); // Rojo
+    // Filas y columnas del mensaje de error
+    for (int i(47) ; i < 75 ; ++i)
+    {
+        gotoxy(i,16); printf("%c",205);
+        gotoxy(i,20); printf("%c",205);
+
+        for (int j(17) ; j < 20 ; ++j)
+        {
+            gotoxy(46,j); printf("%c",186);
+            gotoxy(75,j); printf("%c",186);
+        }
+    }
+    // Esquinas del mensaje de error
+    gotoxy(46,16); printf("%c",201); // Sup. izquierda
+    gotoxy(75,16); printf("%c", 187); // Sup. derecha
+    gotoxy(46,20); printf("%c",200); // Inf. izquierda
+    gotoxy(75,20); printf("%c",188); // Inf. derecha
+
+    // Mensaje de error
+    gotoxy(58,17); cout<<"ERROR";
+    gotoxy(48,18); cout<<"Ya ha registrado la m\240xima";
+    gotoxy(51,19); cout<<"cantidad de procesos";
     Sleep(3000);
     // Limpiar el mensaje de error
     for (int i(46) ; i < 76 ; ++i)
@@ -291,6 +420,70 @@ void invocarInterfaz()
 
 }
 
+void procesosEjecucion()
+{
+    SetColor(15); // Blanco
+    // Titulo
+    gotoxy(28, 3); cout<<"Orden de ejecuci\242n";
+    gotoxy(30, 5); cout<<"ID";
+    gotoxy(35, 5); cout<<"Ejecuci\242n";
+
+    SetColor(8);
+    // Filas
+    for (int i (29) ; i < 45 ; ++i)
+    {
+        gotoxy(i,4); printf("%c",205);
+        gotoxy(i,25); printf("%c",205);
+    }
+    // Columnas
+    for (int i(5); i < 25 ; ++i)
+    {
+        gotoxy(28,i); printf("%c",186);
+        gotoxy(33,i); printf("%c",186);
+        gotoxy(45,i); printf("%c",186);
+    }
+
+    // Esquinas izquierdas
+    gotoxy(28,4); printf("%c",201);
+    gotoxy(28,25); printf("%c",200);
+
+    // Esquinas derechas
+    gotoxy(45,4); printf("%c",187);
+    gotoxy(45,25); printf("%c",188);
+
+    //Intersecciones Frame
+    gotoxy(33,4);  printf("%c",203);
+    gotoxy(33,25); printf("%c",202);
+}
+
+void cuadroProcesosEjecucion()
+{
+    SetColor(9); // Azul claro
+    // Filas
+    for (int i(48) ; i < 118 ; ++i)
+    {
+        gotoxy(i,4); printf("%c",205);
+        gotoxy(i,25); printf("%c",205);
+    }
+    // Columnas
+    for (int i(5); i < 25; ++i)
+    {
+        gotoxy(47,i); printf("%c",186);
+        gotoxy(118,i); printf("%c",186);
+    }
+
+    // Esquinas superiores
+    gotoxy(47,4); printf("%c",201);
+    gotoxy(118,4); printf("%c",187);
+    // Esquinas inferiores
+    gotoxy(47,25); printf("%c",200);
+    gotoxy(118,25); printf("%c",188);
+
+    SetColor(15); // Blanco
+    // Titulo
+    gotoxy(48, 3); cout<<"Ejecuci\242n de procesos";
+}
+
 void limpiarMenu()
 {
     for (int j(3) ; j < 10 ; ++j)
@@ -305,21 +498,92 @@ void limpiarMenu()
 
 int agregarProcesoMan(int procesosRestantes)
 {
+    string resp = "";
+    int procesosAux = procesosRestantes, inicio = 0, duracion = 0;
     if (procesosRestantes == 0)
     {
-
+        advertenciaErrorMaximoProcesos();
     }
     else
     {
+        limpiarMenu();
 
+        // Titulo
+        gotoxy(60,3); cout<<"Agregar";
+
+        // Inicio - Entrada
+
+        gotoxy(55, 5); cout<<"Inicio (0- ): ";
+        gotoxy(68, 5); getline(cin, resp);
+        fflush(stdin);
+
+        resp = removerEspacios(resp);
+        if (validarEntradaProceso(resp))
+        {
+            do
+            {
+                resp = "";
+                advertenciaErrorProcesos(1);
+                gotoxy(68, 5); getline(cin, resp);
+                fflush(stdin);
+                resp = removerEspacios(resp);
+            }while (validarEntradaProceso(resp) != false);
+        }
+        inicio = stoi(resp);
+
+        // Duracion - Entrada
+
+        gotoxy(55, 7); cout<<("Duraci\242n (1- ): ");
+        gotoxy(70, 7); getline(cin, resp);
+        fflush(stdin);
+
+        resp = removerEspacios(resp);
+        if (validarEntradaProceso(resp))
+        {
+            do
+            {
+                resp = "";
+                advertenciaErrorProcesos(2);
+                gotoxy(70, 7); getline(cin, resp);
+                fflush(stdin);
+                resp = removerEspacios(resp);
+            }while (validarEntradaProceso(resp) != false);
+        }
+        duracion = stoi(resp);
+
+
+        getchar();
+
+        --procesosAux;
     }
+
+    return procesosAux;
 }
 
-int Menu (int procesosRestantes)
+int agregarProcesoAut(int procesosRestantes)
+{
+    int procesosAux = procesosRestantes;
+    if (procesosRestantes == 0)
+    {
+        advertenciaErrorMaximoProcesos();
+    }
+    else
+    {
+        limpiarMenu();
+
+
+        --procesosAux;
+    }
+
+    return procesosAux;
+
+}
+
+
+int Menu (int procesosRestantes, int maxProcesos)
 {
     int opc = 0;
     string resp = "";
-    const int maxProcesos = 21;
 
     // Blanco
     SetColor(15);
@@ -356,6 +620,7 @@ int Menu (int procesosRestantes)
     }
     gotoxy(60, 8); cout<<"5) Salir";
     gotoxy(60, 9); cout<<"Respuesta: ";
+
     gotoxy(70, 9); getline(cin, resp);
     fflush(stdin);
 
@@ -365,7 +630,7 @@ int Menu (int procesosRestantes)
         do
         {
             resp = "";
-            advertenciaError();
+            advertenciaErrorMenu();
             gotoxy(70, 9); getline(cin, resp);
             fflush(stdin);
             resp = removerEspacios(resp);
@@ -386,25 +651,30 @@ int main()
     system("pause");
     system("cls");
 
-    int procesosRestantes = 21, opc = 0;
+    int procesosRestantes = 10, opc = 0;
+    const int cantidadMaximaProcesos = procesosRestantes;
     invocarInterfaz();
 
     do{
-        gotoxy(28,4); cout<<"Procesos Restantes: "<<procesosRestantes;
+        gotoxy(28,4); cout<<"Procesos Restantes: "<<procesosRestantes<<" ";
 
-        opc = Menu(procesosRestantes);
-        limpiarMenu();
+        opc = Menu(procesosRestantes, cantidadMaximaProcesos);
+
         switch (opc) {
             case 1:
-                agregarProcesoMan(procesosRestantes);
+                procesosRestantes = agregarProcesoMan(procesosRestantes);
                 break;
+
             case 2:
+                procesosRestantes = agregarProcesoAut(procesosRestantes);
                 break;
 
             case 3:
                 break;
 
             case 4:
+                procesosEjecucion();
+                cuadroProcesosEjecucion();
                 break;
 
             case 5:
@@ -412,8 +682,6 @@ int main()
         }
 
     }while(opc != 5);
-
-    getchar();
 
     cout<<endl;
 
