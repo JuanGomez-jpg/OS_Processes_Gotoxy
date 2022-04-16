@@ -5,11 +5,107 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cctype>
+#include <list>
 
 using namespace std;
 
+// Clase Proceso
+class Proceso{
+    public:
+        Proceso();
+        ~Proceso();
+
+        const string &getIdP() const;
+        void setIdP(const string &newIdP);
+
+        int getInicio() const;
+        void setInicio(int newInicio);
+
+        int getDuracion() const;
+        void setDuracion(int newDuracion);
+
+        int getColT() const;
+        void setColT(int newColT);
+
+        int getFilT() const;
+        void setFilT(int newFilT);
+
+        int getBarra() const;
+        void setBarra(int newBarra);
+
+private:
+        string idP;
+        int inicio, duracion, colT, filT, barra;
+
+};
+
+
+Proceso::Proceso(){ }
+
+Proceso::~Proceso(){ }
+
+const string &Proceso::getIdP() const
+{
+    return idP;
+}
+
+void Proceso::setIdP(const string &newIdP)
+{
+    idP = newIdP;
+}
+
+int Proceso::getInicio() const
+{
+    return inicio;
+}
+
+void Proceso::setInicio(int newInicio)
+{
+    inicio = newInicio;
+}
+
+int Proceso::getDuracion() const
+{
+    return duracion;
+}
+
+void Proceso::setDuracion(int newDuracion)
+{
+    duracion = newDuracion;
+}
+
+int Proceso::getColT() const
+{
+    return colT;
+}
+
+void Proceso::setColT(int newColT)
+{
+    colT = newColT;
+}
+
+int Proceso::getFilT() const
+{
+    return filT;
+}
+
+void Proceso::setFilT(int newFilT)
+{
+    filT = newFilT;
+}
+
+int Proceso::getBarra() const
+{
+    return barra;
+}
+
+void Proceso::setBarra(int newBarra)
+{
+    barra = newBarra;
+}
 
 void invocarInterfaz();
+int Menu (int procesosRestantes);
 
 void Color(int fondo, int texto)
 {
@@ -82,6 +178,7 @@ bool validarEntradaMenu(string resp)
 
 void advertenciaError()
 {
+    SetColor(4); // Rojo
     // Filas y columnas del mensaje de error
     for (int i(47) ; i < 75 ; ++i)
     {
@@ -119,9 +216,10 @@ void advertenciaError()
     {
         gotoxy(i, 9); cout<<" ";
     }
+    SetColor(15); // Blanco
 }
 
-void invocarInterfaz ()
+void invocarInterfaz()
 {
     // Imprimir las filas de los bordes
     SetColor(4); // Rojo
@@ -159,44 +257,69 @@ void invocarInterfaz ()
     gotoxy(119,29); printf("%c", 188);
 
     // Cuadro de los procesos
-    for (int i(3) ; i < 28 ; ++i)
+    for (int i(2) ; i < 27 ; ++i)
     {
         gotoxy(i,4); printf("%c",205);
         gotoxy(i,6); printf("%c",205);
     }
 
     // Columnas de los procesos
-    gotoxy(2,5); printf("%c",186);
-    gotoxy(7,5); printf("%c",186);
-    gotoxy(16,5); printf("%c",186);
-    gotoxy(27,5); printf("%c",186);
+    gotoxy(1,5); printf("%c",186);
+    gotoxy(6,5); printf("%c",186);
+    gotoxy(15,5); printf("%c",186);
+    gotoxy(26,5); printf("%c",186);
 
     // Intersecciones de los procesos lado izquierdo
-    gotoxy(2,4); printf("%c",201);
-    gotoxy(2,6); printf("%c",200);
+    gotoxy(1,4); printf("%c",201);
+    gotoxy(1,6); printf("%c",200);
     // Intersecciones de los procesos lado derecho
-    gotoxy(27,4); printf("%c",187);
-    gotoxy(27,6); printf("%c",188);
+    gotoxy(26,4); printf("%c",187);
+    gotoxy(26,6); printf("%c",188);
     // Intersecciones de los procesos
-    gotoxy(7,4); printf("%c",203);
-    gotoxy(7,6); printf("%c",202);
-    gotoxy(16,4); printf("%c",203);
-    gotoxy(16,6); printf("%c",202);
+    gotoxy(6,4); printf("%c",203);
+    gotoxy(6,6); printf("%c",202);
+    gotoxy(15,4); printf("%c",203);
+    gotoxy(15,6); printf("%c",202);
 
     SetColor(15); // Blanco
     //Datos de los Procesos
-    gotoxy(5,3); cout<<"Datos de los procesos";
-    gotoxy(4,5); cout<<"ID";
-    gotoxy(9,5); cout<<"Inicio";
-    gotoxy(18,5); cout<<"Duraci\242n ";
+    gotoxy(4,3); cout<<"Datos de los procesos";
+    gotoxy(3,5); cout<<"ID";
+    gotoxy(8,5); cout<<"Inicio";
+    gotoxy(17,5); cout<<"Duraci\242n ";
 
 
 }
 
-int invocarMenu (int procesosRestantes)
+void limpiarMenu()
+{
+    for (int j(3) ; j < 10 ; ++j)
+    {
+        for (int i(60) ; i < 93; ++i)
+        {
+            gotoxy(i,j); cout<<" ";
+            //Sleep(1);
+        }
+    }
+}
+
+int agregarProcesoMan(int procesosRestantes)
+{
+    if (procesosRestantes == 0)
+    {
+
+    }
+    else
+    {
+
+    }
+}
+
+int Menu (int procesosRestantes)
 {
     int opc = 0;
     string resp = "";
+    const int maxProcesos = 21;
 
     // Blanco
     SetColor(15);
@@ -216,7 +339,7 @@ int invocarMenu (int procesosRestantes)
         gotoxy(60, 5); cout<<"2) A\244adir proceso autom\240ticamente";
     }
 
-    if (procesosRestantes == 15)
+    if (procesosRestantes == maxProcesos)
     {   // Rojo
         SetColor(4);
         gotoxy(60, 6); cout<<"3) Modificar un proceso";
@@ -248,26 +371,53 @@ int invocarMenu (int procesosRestantes)
             resp = removerEspacios(resp);
         }while (validarEntradaMenu(resp) != false);
     }
-
+    opc = stoi(resp);
 
     return opc;
 }
 
 int main()
 {
+    cout<<"Antes de comenzar, procura seleccionar el tama\244o de la fuente 36, fuente Consolas,"<<endl
+        <<"el tama\244o del buffer de la ventana: 120, 9001"<<endl
+        <<"el tama\244o de la ventana: 120, 30"<<endl
+        <<"para el correcto funcionamiento del programa."<<endl<<endl
+        <<"Una vez hecho esto, presione cualquier tecla para comenzar."<<endl<<endl;
     system("pause");
     system("cls");
 
-    int procesosRestantes = 15;
-
-    gotoxy(33,4); cout<<"Procesos Restantes: "<<procesosRestantes;
-
+    int procesosRestantes = 21, opc = 0;
     invocarInterfaz();
-    invocarMenu(procesosRestantes);
 
-     getchar();
+    do{
+        gotoxy(28,4); cout<<"Procesos Restantes: "<<procesosRestantes;
+
+        opc = Menu(procesosRestantes);
+        limpiarMenu();
+        switch (opc) {
+            case 1:
+                agregarProcesoMan(procesosRestantes);
+                break;
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+            case 4:
+                break;
+
+            case 5:
+                break;
+        }
+
+    }while(opc != 5);
+
+    getchar();
 
     cout<<endl;
 
     return 0;
 }
+
+
