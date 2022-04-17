@@ -195,7 +195,7 @@ bool validarEntradaProceso(string resp)
     if (!val)
     {
         int respAux = atoi(a);
-        if (respAux <= 0)
+        if (respAux < 0)
         {
             val = true;
         }
@@ -415,7 +415,7 @@ void invocarInterfaz()
     gotoxy(4,3); cout<<"Datos de los procesos";
     gotoxy(3,5); cout<<"ID";
     gotoxy(8,5); cout<<"Inicio";
-    gotoxy(17,5); cout<<"Duraci\242n ";
+    gotoxy(17,5); cout<<"Duraci\242n";
 
 
 }
@@ -456,6 +456,45 @@ void procesosEjecucion()
     gotoxy(33,25); printf("%c",202);
 }
 
+void mostrarProcesosAgregados(Proceso p)
+{
+    SetColor(15); // Blanco
+    gotoxy(3, p.getColT()); cout<<""<<p.getIdP();
+    gotoxy(10, p.getColT()); cout<<""<<p.getInicio();
+    gotoxy(20, p.getColT()); cout<<""<<p.getDuracion();
+
+    SetColor(4); // Rojo
+    // Mostrar cuadro, columnas
+    gotoxy(1, p.getColT()); printf("%c",186);
+    gotoxy(6, p.getColT()); printf("%c",186);
+    gotoxy(15, p.getColT()); printf("%c",186);
+    gotoxy(26, p.getColT()); printf("%c",186);
+
+    for (int i (2) ; i < 26 ; ++i)
+    {
+        gotoxy(i, p.getColT() + 1); printf("%c",205);
+    }
+
+    // Esquinas - Izquierda
+    gotoxy(1, p.getColT() - 1); printf("%c",204);
+    gotoxy(1, p.getColT() + 1); printf("%c",200);
+
+    // Esquinas - Izquierda + 1
+    gotoxy(6, p.getColT() - 1); printf("%c",206);
+    gotoxy(6, p.getColT() + 1); printf("%c",202);
+
+    // Esquinas - Izquierda + 2
+    gotoxy(15, p.getColT() - 1); printf("%c",206);
+    gotoxy(15, p.getColT() + 1); printf("%c",202);
+
+    // Esquinas - Izquierda + 2
+    gotoxy(26, p.getColT() - 1); printf("%c",185);
+    gotoxy(26, p.getColT() + 1); printf("%c",188);
+
+    SetColor(15); // Blanco
+
+}
+
 void cuadroProcesosEjecucion()
 {
     SetColor(9); // Azul claro
@@ -488,7 +527,7 @@ void limpiarMenu()
 {
     for (int j(3) ; j < 10 ; ++j)
     {
-        for (int i(60) ; i < 93; ++i)
+        for (int i(55) ; i < 93; ++i)
         {
             gotoxy(i,j); cout<<" ";
             //Sleep(1);
@@ -496,7 +535,7 @@ void limpiarMenu()
     }
 }
 
-int agregarProcesoMan(int procesosRestantes)
+int agregarProcesoMan(int procesosRestantes, list<Proceso> &procesos)
 {
     string resp = "";
     int procesosAux = procesosRestantes, inicio = 0, duracion = 0;
@@ -551,8 +590,23 @@ int agregarProcesoMan(int procesosRestantes)
         }
         duracion = stoi(resp);
 
+        Proceso p;
+        p.setInicio(inicio);
+        p.setDuracion(duracion);
+        string id = "P" + to_string(procesos.size() + 1);
+        int posCol = 0;
 
-        getchar();
+        if (procesos.size() == 0)
+            posCol = 7;
+        else
+            posCol = procesos.back().getColT() + 2;
+
+        p.setBarra(0);
+        p.setFilT(2);
+        p.setColT(posCol);
+        p.setIdP(id);
+        procesos.push_back(p);
+
 
         --procesosAux;
     }
@@ -643,6 +697,10 @@ int Menu (int procesosRestantes, int maxProcesos)
 
 int main()
 {
+    int procesosRestantes = 10, opc = 0;
+    const int cantidadMaximaProcesos = procesosRestantes;
+    list<Proceso> procesos;
+
     cout<<"Antes de comenzar, procura seleccionar el tama\244o de la fuente 36, fuente Consolas,"<<endl
         <<"el tama\244o del buffer de la ventana: 120, 9001"<<endl
         <<"el tama\244o de la ventana: 120, 30"<<endl
@@ -651,8 +709,6 @@ int main()
     system("pause");
     system("cls");
 
-    int procesosRestantes = 10, opc = 0;
-    const int cantidadMaximaProcesos = procesosRestantes;
     invocarInterfaz();
 
     do{
@@ -662,11 +718,14 @@ int main()
 
         switch (opc) {
             case 1:
-                procesosRestantes = agregarProcesoMan(procesosRestantes);
+                procesosRestantes = agregarProcesoMan(procesosRestantes, procesos);
+                limpiarMenu();
+                mostrarProcesosAgregados(procesos.back());
                 break;
 
             case 2:
                 procesosRestantes = agregarProcesoAut(procesosRestantes);
+                limpiarMenu();
                 break;
 
             case 3:
