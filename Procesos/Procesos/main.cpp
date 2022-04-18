@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <cctype>
 #include <list>
+#include <time.h>
 
 using namespace std;
 
@@ -206,6 +207,50 @@ bool validarEntradaProceso(string resp)
     return false;
 }
 
+bool validarEntradaModificar(string resp)
+{
+    // Variable bandera
+    bool val = false;
+    // Arreglo de char para almacenar la entrada
+    char a[resp.size()];
+    //Tamaño de la entrada
+    int size = resp.size();
+    //Opcion
+    int opc = 0;
+
+    for (int i(0) ; i < size; ++i) a[i] = resp.at(i);
+
+    for (int i(0) ; i < size; ++i)
+    {
+        if ( (a[i] >= 0 && a[i] <= 48) || (a[i] >= 51)) val = true;
+    }
+
+    if (!val)
+    {
+        int respAux = atoi(a);
+        if (respAux <= 0 || respAux >= 3)
+        {
+            val = true;
+        }
+        else
+            opc = respAux;
+    }
+
+    if (opc == 1)
+    {
+
+    }
+    else
+    {
+
+    }
+
+
+    if (val) return true;
+
+    return false;
+}
+
 void advertenciaErrorMenu()
 {
     SetColor(4); // Rojo
@@ -282,11 +327,20 @@ void advertenciaErrorProcesos(int ent)
             gotoxy(i, 5); cout<<" ";
         }
     }
-    else
+    else if (ent == 2)
     {
         gotoxy(53,19); cout<<"mayor o igual a 1";
         // Limpiar respuesta
         for (int i (70) ; i < 119 ; ++i)
+        {
+            gotoxy(i, 7); cout<<" ";
+        }
+    }
+    else if (ent == 3)
+    {
+        gotoxy(56,19); cout<<"entre 1 y 2";
+        // Limpiar respuesta
+        for (int i (65) ; i < 119 ; ++i)
         {
             gotoxy(i, 7); cout<<" ";
         }
@@ -330,6 +384,49 @@ void advertenciaErrorMaximoProcesos()
     gotoxy(58,17); cout<<"ERROR";
     gotoxy(48,18); cout<<"Ya ha registrado la m\240xima";
     gotoxy(51,19); cout<<"cantidad de procesos";
+    Sleep(3000);
+    // Limpiar el mensaje de error
+    for (int i(46) ; i < 76 ; ++i)
+    {
+        gotoxy(i,16); cout<<" ";
+        gotoxy(i,17); cout<<" ";
+        gotoxy(i,18); cout<<" ";
+        gotoxy(i,19); cout<<" ";
+        gotoxy(i,20); cout<<" ";
+    }
+    // Limpiar respuesta
+    for (int i (70) ; i < 119 ; ++i)
+    {
+        gotoxy(i, 9); cout<<" ";
+    }
+    SetColor(15); // Blanco
+}
+
+void advertenciaNoProcesos()
+{
+    SetColor(4); // Rojo
+    // Filas y columnas del mensaje de error
+    for (int i(47) ; i < 75 ; ++i)
+    {
+        gotoxy(i,16); printf("%c",205);
+        gotoxy(i,20); printf("%c",205);
+
+        for (int j(17) ; j < 20 ; ++j)
+        {
+            gotoxy(46,j); printf("%c",186);
+            gotoxy(75,j); printf("%c",186);
+        }
+    }
+    // Esquinas del mensaje de error
+    gotoxy(46,16); printf("%c",201); // Sup. izquierda
+    gotoxy(75,16); printf("%c", 187); // Sup. derecha
+    gotoxy(46,20); printf("%c",200); // Inf. izquierda
+    gotoxy(75,20); printf("%c",188); // Inf. derecha
+
+    // Mensaje de error
+    gotoxy(58,17); cout<<"ERROR";
+    gotoxy(50,18); cout<<"Todav\241a no hay ning\243n";
+    gotoxy(52,19); cout<<"proceso registrado";
     Sleep(3000);
     // Limpiar el mensaje de error
     for (int i(46) ; i < 76 ; ++i)
@@ -607,14 +704,13 @@ int agregarProcesoMan(int procesosRestantes, list<Proceso> &procesos)
         p.setIdP(id);
         procesos.push_back(p);
 
-
         --procesosAux;
     }
 
     return procesosAux;
 }
 
-int agregarProcesoAut(int procesosRestantes)
+int agregarProcesoAut(int procesosRestantes, list<Proceso> &procesos)
 {
     int procesosAux = procesosRestantes;
     if (procesosRestantes == 0)
@@ -625,6 +721,22 @@ int agregarProcesoAut(int procesosRestantes)
     {
         limpiarMenu();
 
+        Proceso p;
+        p.setInicio(rand() % 200);
+        p.setDuracion(1 + rand() % 200);
+        string id = "P" + to_string(procesos.size() + 1);
+        int posCol = 0;
+
+        if (procesos.size() == 0)
+            posCol = 7;
+        else
+            posCol = procesos.back().getColT() + 2;
+
+        p.setBarra(0);
+        p.setFilT(2);
+        p.setColT(posCol);
+        p.setIdP(id);
+        procesos.push_back(p);
 
         --procesosAux;
     }
@@ -633,6 +745,52 @@ int agregarProcesoAut(int procesosRestantes)
 
 }
 
+void modificarProceso(int procesosRestantes, int cantidadMaxProc, list<Proceso> &procesos)
+{
+    string resp = "";
+    int opcion = 0;
+    if ( (cantidadMaxProc - procesosRestantes) == 0)
+    {
+        advertenciaNoProcesos();
+    }
+    else
+    {
+        limpiarMenu();
+
+        // Titulo
+        gotoxy(65,3); cout<<"Modificar";
+
+        // Inicio - Entrada
+
+        gotoxy(55, 5); cout<<"1) Ingresar el id del proceso";
+        gotoxy(55, 6); cout<<"2) Cancelar";
+        gotoxy(55, 7); cout<<"Respuesta: ";
+        gotoxy(65, 7); getline(cin, resp);
+        fflush(stdin);
+
+        resp = removerEspacios(resp);
+        if (validarEntradaModificar(resp))
+        {
+            do
+            {
+                resp = "";
+                advertenciaErrorProcesos(3);
+                gotoxy(65, 7); getline(cin, resp);
+                fflush(stdin);
+                resp = removerEspacios(resp);
+            }while (validarEntradaModificar(resp) != false);
+        }
+        opcion = stoi(resp); // String to Int
+
+        if (opcion == 1)
+        {
+
+        }
+        else
+            limpiarMenu();
+
+    }
+}
 
 int Menu (int procesosRestantes, int maxProcesos)
 {
@@ -697,6 +855,8 @@ int Menu (int procesosRestantes, int maxProcesos)
 
 int main()
 {
+    srand (time(NULL));
+
     int procesosRestantes = 10, opc = 0;
     const int cantidadMaximaProcesos = procesosRestantes;
     list<Proceso> procesos;
@@ -724,11 +884,14 @@ int main()
                 break;
 
             case 2:
-                procesosRestantes = agregarProcesoAut(procesosRestantes);
+                procesosRestantes = agregarProcesoAut(procesosRestantes, procesos);
                 limpiarMenu();
+                mostrarProcesosAgregados(procesos.back());
                 break;
 
             case 3:
+                modificarProceso(procesosRestantes, cantidadMaximaProcesos, procesos);
+                limpiarMenu();
                 break;
 
             case 4:
