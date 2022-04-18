@@ -215,8 +215,6 @@ bool validarEntradaModificar(string resp)
     char a[resp.size()];
     //Tamaño de la entrada
     int size = resp.size();
-    //Opcion
-    int opc = 0;
 
     for (int i(0) ; i < size; ++i) a[i] = resp.at(i);
 
@@ -232,23 +230,55 @@ bool validarEntradaModificar(string resp)
         {
             val = true;
         }
-        else
-            opc = respAux;
     }
-
-    if (opc == 1)
-    {
-
-    }
-    else
-    {
-
-    }
-
 
     if (val) return true;
 
     return false;
+}
+
+int validarProcesoExistente(string resp, list<Proceso> &procesos)
+{
+    // Variable bandera
+    int err = 0;
+    // Arreglo de char para almacenar la entrada
+    char a[resp.size()];
+    //Tamaño de la entrada
+    int size = resp.size();
+
+    for (int i(0) ; i < size; ++i) a[i] = resp.at(i);
+
+    for (int i(0) ; i < size; ++i)
+    {
+        if ( (a[i] >= 0 && a[i] <= 48) || (a[i] >= 58)) err = 4;
+    }
+
+    if (err == 0)
+    {
+        // Verificar si el valor es menor o igual a cero
+        int respAux = atoi(a);
+        if (respAux <= 0)
+        {
+            err = 4;
+        }
+        if (err == 0)
+        {
+            // Verificar si existe el proceso (ID) iterando en la lista
+            list<Proceso>::iterator it;
+            for (it = procesos.begin() ; it != procesos.end(); ++it)
+            {
+                err = 4;
+                if (it->getIdP() == "P" + resp)
+                {
+                    err = 0;
+                    break;
+                }
+            }
+
+        }
+    }
+
+    return err;
 }
 
 void advertenciaErrorMenu()
@@ -294,7 +324,7 @@ void advertenciaErrorMenu()
     SetColor(15); // Blanco
 }
 
-void advertenciaErrorProcesos(int ent)
+void advertenciaErrorProcesos(int ent, list<Proceso> &proceso)
 {
     SetColor(4); // Rojo
     // Filas y columnas del mensaje de error
@@ -318,6 +348,7 @@ void advertenciaErrorProcesos(int ent)
     // Mensaje de error
     gotoxy(59,17); cout<<"ERROR";
     gotoxy(50,18); cout<<"Debe ingresar un n\243mero";
+    // Error - Agregar Proceso Manualmente
     if (ent == 1)
     {
         gotoxy(53,19); cout<<"mayor o igual a 0";
@@ -327,6 +358,7 @@ void advertenciaErrorProcesos(int ent)
             gotoxy(i, 5); cout<<" ";
         }
     }
+    // Error - Agregar Proceso Manualmente
     else if (ent == 2)
     {
         gotoxy(53,19); cout<<"mayor o igual a 1";
@@ -336,6 +368,7 @@ void advertenciaErrorProcesos(int ent)
             gotoxy(i, 7); cout<<" ";
         }
     }
+    // Error - Modificar - Opciones 1 y 2
     else if (ent == 3)
     {
         gotoxy(56,19); cout<<"entre 1 y 2";
@@ -343,6 +376,17 @@ void advertenciaErrorProcesos(int ent)
         for (int i (65) ; i < 119 ; ++i)
         {
             gotoxy(i, 7); cout<<" ";
+        }
+    }
+    // Error - Modificar Proceso - Entrada no Valida (No valores)
+    else if (ent == 4)
+    {
+        string size = to_string(proceso.size());
+        gotoxy(56,19); cout<<"entre 1 y " + size;
+        // Limpiar respuesta
+        for (int i (60) ; i < 119 ; ++i)
+        {
+            gotoxy(i, 5); cout<<" ";
         }
     }
 
@@ -659,7 +703,7 @@ int agregarProcesoMan(int procesosRestantes, list<Proceso> &procesos)
             do
             {
                 resp = "";
-                advertenciaErrorProcesos(1);
+                advertenciaErrorProcesos(1, procesos);
                 gotoxy(68, 5); getline(cin, resp);
                 fflush(stdin);
                 resp = removerEspacios(resp);
@@ -679,7 +723,7 @@ int agregarProcesoMan(int procesosRestantes, list<Proceso> &procesos)
             do
             {
                 resp = "";
-                advertenciaErrorProcesos(2);
+                advertenciaErrorProcesos(2, procesos);
                 gotoxy(70, 7); getline(cin, resp);
                 fflush(stdin);
                 resp = removerEspacios(resp);
@@ -745,9 +789,14 @@ int agregarProcesoAut(int procesosRestantes, list<Proceso> &procesos)
 
 }
 
+void modificar(int id, list<Proceso> &procesos)
+{
+
+}
+
 void modificarProceso(int procesosRestantes, int cantidadMaxProc, list<Proceso> &procesos)
 {
-    string resp = "";
+    string resp = "", id = "";
     int opcion = 0;
     if ( (cantidadMaxProc - procesosRestantes) == 0)
     {
@@ -774,7 +823,7 @@ void modificarProceso(int procesosRestantes, int cantidadMaxProc, list<Proceso> 
             do
             {
                 resp = "";
-                advertenciaErrorProcesos(3);
+                advertenciaErrorProcesos(3, procesos);
                 gotoxy(65, 7); getline(cin, resp);
                 fflush(stdin);
                 resp = removerEspacios(resp);
@@ -784,7 +833,35 @@ void modificarProceso(int procesosRestantes, int cantidadMaxProc, list<Proceso> 
 
         if (opcion == 1)
         {
+            // Limpiar menu-modificar
+            for (int i (55); i < 119 ; ++i)
+                for (int j(5); j < 10 ; ++j)
+                {
+                    gotoxy(i,j); cout<<" ";
+                }
 
+            // ID - Entrada
+            gotoxy(55, 5); cout<<"ID: P";
+            gotoxy(60, 5); getline(cin, id);
+            fflush(stdin);
+
+            id = removerEspacios(id);
+            int err = 0;
+            err = validarProcesoExistente(id, procesos);
+            if (err != 0)
+            {
+                do
+                {
+                    id = "";
+                    advertenciaErrorProcesos(err, procesos);
+                    gotoxy(60, 5); getline(cin, id);
+                    fflush(stdin);
+                    id = removerEspacios(id);
+                    err = validarProcesoExistente(id, procesos);
+                }while (err != 0);
+            }
+
+            //modificar(id, procesos);
         }
         else
             limpiarMenu();
