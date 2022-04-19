@@ -5,8 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cctype>
-#include <list>
+#include <vector>
 #include <time.h>
+
+#define PROCESOS_RESTANTES 9;
 
 using namespace std;
 
@@ -237,10 +239,8 @@ bool validarEntradaModificar(string resp)
     return false;
 }
 
-int validarProcesoExistente(string resp, list<Proceso> &procesos)
+void validarProcesoExistente(string resp, vector<Proceso> &procesos, int *pos, int *err)
 {
-    // Variable bandera
-    int err = 0;
     // Arreglo de char para almacenar la entrada
     char a[resp.size()];
     //Tamaño de la entrada
@@ -250,35 +250,33 @@ int validarProcesoExistente(string resp, list<Proceso> &procesos)
 
     for (int i(0) ; i < size; ++i)
     {
-        if ( (a[i] >= 0 && a[i] <= 48) || (a[i] >= 58)) err = 4;
+        if ( (a[i] >= 0 && a[i] <= 48) || (a[i] >= 58)) *err = 4;
     }
 
-    if (err == 0)
+    if (*err == 0)
     {
         // Verificar si el valor es menor o igual a cero
         int respAux = atoi(a);
         if (respAux <= 0)
         {
-            err = 4;
+            *err = 4;
         }
-        if (err == 0)
+        if (*err == 0)
         {
             // Verificar si existe el proceso (ID) iterando en la lista
-            list<Proceso>::iterator it;
-            for (it = procesos.begin() ; it != procesos.end(); ++it)
+            for (size_t i(0) ; i < procesos.size() ; ++i)
             {
-                err = 4;
-                if (it->getIdP() == "P" + resp)
+                *err = 4;
+                if (procesos.at(i).getIdP() == "P" + resp)
                 {
-                    err = 0;
+                    *err = 0;
+                    *pos = i;
                     break;
                 }
             }
 
         }
     }
-
-    return err;
 }
 
 void advertenciaErrorMenu()
@@ -324,7 +322,7 @@ void advertenciaErrorMenu()
     SetColor(15); // Blanco
 }
 
-void advertenciaErrorProcesos(int ent, list<Proceso> &proceso)
+void advertenciaErrorProcesos(int ent, vector<Proceso> &proceso)
 {
     SetColor(4); // Rojo
     // Filas y columnas del mensaje de error
@@ -597,9 +595,16 @@ void procesosEjecucion()
     gotoxy(33,25); printf("%c",202);
 }
 
-void mostrarProcesosAgregados(Proceso p)
+void mostrarProcesosAgregados(Proceso p, string action, int size)
 {
     SetColor(15); // Blanco
+
+    for (int i(8) ; i < 14 ; ++i)
+    {
+        gotoxy(i, p.getColT()); cout<<" ";
+        gotoxy(i*2, p.getColT()); cout<<" ";
+    }
+
     gotoxy(3, p.getColT()); cout<<""<<p.getIdP();
     gotoxy(10, p.getColT()); cout<<""<<p.getInicio();
     gotoxy(20, p.getColT()); cout<<""<<p.getDuracion();
@@ -632,8 +637,25 @@ void mostrarProcesosAgregados(Proceso p)
     gotoxy(26, p.getColT() - 1); printf("%c",185);
     gotoxy(26, p.getColT() + 1); printf("%c",188);
 
-    SetColor(15); // Blanco
 
+    // Rescatar el ID del proceso en un string
+    string id = "";
+    for (size_t i(1) ; i < p.getIdP().size() ; ++i)
+    {
+        id += p.getIdP().at(i);
+    }
+
+    // Comparar si el proceso a modificar no es el último de la tabla
+    // Si lo es, entra al if y modificar los contornos de la tabla
+    if (action == "mod" && size > atoi(id.c_str()))
+    {
+        gotoxy(1, p.getColT() + 1); printf("%c",204);
+        gotoxy(6, p.getColT() + 1); printf("%c",206);
+        gotoxy(15, p.getColT() + 1); printf("%c",206);
+        gotoxy(26, p.getColT() + 1); printf("%c",185);
+    }
+
+    SetColor(15); // Blanco
 }
 
 void cuadroProcesosEjecucion()
@@ -676,7 +698,7 @@ void limpiarMenu()
     }
 }
 
-int agregarProcesoMan(int procesosRestantes, list<Proceso> &procesos)
+int agregarProcesoMan(int procesosRestantes, vector<Proceso> &procesos)
 {
     string resp = "";
     int procesosAux = procesosRestantes, inicio = 0, duracion = 0;
@@ -754,7 +776,7 @@ int agregarProcesoMan(int procesosRestantes, list<Proceso> &procesos)
     return procesosAux;
 }
 
-int agregarProcesoAut(int procesosRestantes, list<Proceso> &procesos)
+int agregarProcesoAut(int procesosRestantes, vector<Proceso> &procesos)
 {
     int procesosAux = procesosRestantes;
     if (procesosRestantes == 0)
@@ -789,12 +811,91 @@ int agregarProcesoAut(int procesosRestantes, list<Proceso> &procesos)
 
 }
 
-void modificar(int id, list<Proceso> &procesos)
+void modificar(string id, vector<Proceso> &procesos)
 {
+
+    id = removerEspacios(id);
+    int err = 0, pos = 0;
+    validarProcesoExistente(id, procesos, &pos, &err);
+    if (err != 0)
+    {
+        do
+        {
+            id = "";
+            advertenciaErrorProcesos(err, procesos);
+            gotoxy(60, 5); getline(cin, id);
+            fflush(stdin);
+            id = removerEspacios(id);
+            validarProcesoExistente(id, procesos, &pos, &err);
+        }while (err != 0);
+    }
+
+    string resp = "";
+    int inicio = 0, duracion = 0;
+    // Limpiar menu modificar
+    for (int i (55); i < 119 ; ++i)
+        for (int j(5); j < 10 ; ++j)
+        {
+            gotoxy(i,j); cout<<" ";
+        }
+
+    // Inicio - Entrada
+
+    gotoxy(55, 5); cout<<"Inicio (0- ): ";
+    gotoxy(68, 5); getline(cin, resp);
+    fflush(stdin);
+
+    resp = removerEspacios(resp);
+    if (validarEntradaProceso(resp))
+    {
+        do
+        {
+            resp = "";
+            advertenciaErrorProcesos(1, procesos);
+            gotoxy(68, 5); getline(cin, resp);
+            fflush(stdin);
+            resp = removerEspacios(resp);
+        }while (validarEntradaProceso(resp) != false);
+    }
+    inicio = stoi(resp);
+
+    // Duracion - Entrada
+
+    gotoxy(55, 7); cout<<("Duraci\242n (1- ): ");
+    gotoxy(70, 7); getline(cin, resp);
+    fflush(stdin);
+
+    resp = removerEspacios(resp);
+    if (validarEntradaProceso(resp))
+    {
+        do
+        {
+            resp = "";
+            advertenciaErrorProcesos(2, procesos);
+            gotoxy(70, 7); getline(cin, resp);
+            fflush(stdin);
+            resp = removerEspacios(resp);
+        }while (validarEntradaProceso(resp) != false);
+    }
+    duracion = stoi(resp);
+
+    // Verificar si existe el proceso (ID) iterando en la lista
+
+    if (procesos.at(pos).getIdP() == "P" + id)
+    {
+        procesos.at(pos).setInicio(inicio);
+        procesos.at(pos).setDuracion(duracion);
+
+        Proceso p;
+
+        p = procesos.at(pos);
+        mostrarProcesosAgregados(p, "mod", procesos.size());
+    }
+
 
 }
 
-void modificarProceso(int procesosRestantes, int cantidadMaxProc, list<Proceso> &procesos)
+void modificarProceso(int procesosRestantes, int cantidadMaxProc, vector<Proceso> &procesos)
 {
     string resp = "", id = "";
     int opcion = 0;
@@ -845,23 +946,7 @@ void modificarProceso(int procesosRestantes, int cantidadMaxProc, list<Proceso> 
             gotoxy(60, 5); getline(cin, id);
             fflush(stdin);
 
-            id = removerEspacios(id);
-            int err = 0;
-            err = validarProcesoExistente(id, procesos);
-            if (err != 0)
-            {
-                do
-                {
-                    id = "";
-                    advertenciaErrorProcesos(err, procesos);
-                    gotoxy(60, 5); getline(cin, id);
-                    fflush(stdin);
-                    id = removerEspacios(id);
-                    err = validarProcesoExistente(id, procesos);
-                }while (err != 0);
-            }
-
-            //modificar(id, procesos);
+            modificar(id, procesos);
         }
         else
             limpiarMenu();
@@ -934,9 +1019,10 @@ int main()
 {
     srand (time(NULL));
 
-    int procesosRestantes = 10, opc = 0;
-    const int cantidadMaximaProcesos = procesosRestantes;
-    list<Proceso> procesos;
+    int opc = 0;
+    const int cantidadMaximaProcesos = PROCESOS_RESTANTES;
+    int procesosRestantes = PROCESOS_RESTANTES;
+    vector<Proceso> procesos;
 
     cout<<"Antes de comenzar, procura seleccionar el tama\244o de la fuente 36, fuente Consolas,"<<endl
         <<"el tama\244o del buffer de la ventana: 120, 9001"<<endl
@@ -957,13 +1043,13 @@ int main()
             case 1:
                 procesosRestantes = agregarProcesoMan(procesosRestantes, procesos);
                 limpiarMenu();
-                mostrarProcesosAgregados(procesos.back());
+                mostrarProcesosAgregados(procesos.back(), "", procesos.size());
                 break;
 
             case 2:
                 procesosRestantes = agregarProcesoAut(procesosRestantes, procesos);
                 limpiarMenu();
-                mostrarProcesosAgregados(procesos.back());
+                mostrarProcesosAgregados(procesos.back(), "", procesos.size());
                 break;
 
             case 3:
