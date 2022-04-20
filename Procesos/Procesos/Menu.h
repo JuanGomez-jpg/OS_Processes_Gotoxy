@@ -13,6 +13,7 @@
 #include <time.h>
 #include "Proceso.h"
 #include "Metodos.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -24,15 +25,17 @@ public:
     void invocarInterfaz();
     void gotoxy(int x,int y);
     void SetColor(int ForgC);
-    void procesosEjecucion();
+    void procesosEjecucion(vector<Proceso> procesos);
     void cuadroProcesosEjecucion();
     void limpiarMenu();
     int MenuOpc (int procesosRestantes, int maxProcesos);
     void init();
     void mostrarProcesosAgregados(Proceso p, string action, int size);
+    void sortAscending();
 
 private:
     vector<Proceso> procesos;
+    vector<Proceso> procesosAux;
 
 };
 

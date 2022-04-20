@@ -99,48 +99,86 @@ void Menu::SetColor(int ForgC)
     return;
 }
 
-void Menu::procesosEjecucion()
+void Menu::procesosEjecucion(vector<Proceso> procesos)
 {
     SetColor(15); // Blanco
-    // Titulo
+    // Titulos
     gotoxy(27, 3); cout<<"Orden de ejecuci\242n";
     gotoxy(29, 5); cout<<"ID";
     gotoxy(34, 5); cout<<"Ejecuci\242n";
 
-    SetColor(8);
-    // Filas
-    for (int i (28) ; i < 45 ; ++i)
+    SetColor(8); // Gris
+    // Cuadro de los procesos
+    for (int i(28) ; i < 44 ; ++i)
     {
         gotoxy(i,4); printf("%c",205);
         gotoxy(i,6); printf("%c",205);
-        gotoxy(i,24); printf("%c",205);
-        Sleep(1);
     }
-    // Columnas
-    for (int i(5); i < 24 ; ++i)
-    {
-        gotoxy(27,i); printf("%c",186);
-        gotoxy(32,i); printf("%c",186);
-        gotoxy(44,i); printf("%c",186);
-        Sleep(1);
-    }
+    // Columnas de los procesos
+    gotoxy(27,5); printf("%c",186);
+    gotoxy(32,5); printf("%c",186);
+    gotoxy(44,5); printf("%c",186);
 
-    // Esquinas izquierdas
+    // Intersecciones de los procesos lado izquierdo
     gotoxy(27,4); printf("%c",201);
-    gotoxy(27,24); printf("%c",200);
-
-    // Esquinas derechas
-    gotoxy(44,4); printf("%c",187);
-    gotoxy(44,24); printf("%c",188);
-
-    //Intersecciones Frame
-    gotoxy(32,4);  printf("%c",203);
-    gotoxy(32,24); printf("%c",202);
-
-    //Intersecciones Titulos
     gotoxy(27,6); printf("%c",204);
-    gotoxy(32,6); printf("%c",206);
+    // Intersecciones de los procesos lado derecho
+    gotoxy(44,4); printf("%c",187);
     gotoxy(44,6); printf("%c",185);
+    // Intersecciones de los procesos
+    gotoxy(32,4); printf("%c",203);
+    gotoxy(32,6); printf("%c",202);
+
+    for (size_t i(0) ; i < procesos.size() ; ++i)
+    {
+        SetColor(8); // Gris
+        // Columnas
+        gotoxy(27, procesos.at(i).getColT()); printf("%c",186);
+        gotoxy(32, procesos.at(i).getColT()); printf("%c",186);
+        gotoxy(44, procesos.at(i).getColT()); printf("%c",186);
+
+        SetColor(15); // Blanco
+        // Datos
+        gotoxy(29, procesos.at(i).getColT()); cout<<""<<procesos.at(i).getIdP();
+        gotoxy(37, procesos.at(i).getColT()); cout<<""<<procesos.at(i).getInicio();
+
+        SetColor(8); // Gris
+        // Filas
+        for (int j (28) ; j < 44 ; ++j)
+        {
+            gotoxy(j, procesos.at(i).getColT() - 1); printf("%c",205);
+            gotoxy(j, procesos.at(i).getColT() + 1); printf("%c",205);
+        }
+
+        // Esquinas - Izquierda
+        gotoxy(27, procesos.at(i).getColT() - 1); printf("%c",204);
+        gotoxy(27, procesos.at(i).getColT() + 1); printf("%c",200);
+
+        // Esquinas - Izquierda + 1
+        gotoxy(32, procesos.at(i).getColT() - 1); printf("%c",206);
+        gotoxy(32, procesos.at(i).getColT() + 1); printf("%c",202);
+
+        // Esquinas - Izquierda + 2
+        gotoxy(44, procesos.at(i).getColT() - 1); printf("%c",185);
+        gotoxy(44, procesos.at(i).getColT() + 1); printf("%c",188);
+
+        // Rescatar el ID del proceso en un string
+        string id = "";
+        for (size_t k(1) ; k < procesos.at(i).getIdP().size() ; ++k)
+        {
+            id += procesos.at(i).getIdP().at(k);
+        }
+
+        // Comparar si el proceso a modificar no es el último de la tabla
+        // Si lo es, entra al if y modificar los contornos de la tabla
+        int p = procesos.size();
+        if (p > atoi(id.c_str()))
+        {
+            gotoxy(27, procesos.at(i).getColT() + 1); printf("%c",204);
+            gotoxy(32, procesos.at(i).getColT() + 1); printf("%c",206);
+            gotoxy(44, procesos.at(i).getColT() + 1); printf("%c",185);
+        }
+    }
 }
 
 void Menu::cuadroProcesosEjecucion()
@@ -318,13 +356,36 @@ void Menu::mostrarProcesosAgregados(Proceso p, string action, int size)
     SetColor(15); // Blanco
 }
 
+void bubbleSort(vector<Proceso> &procesos)
+{
+    Proceso pTemp;
+    int size = procesos.size();
+    for (int i = 0; i < size; ++i) {
+        for (int j = i+1; j < size; ++j) {
+            if (procesos.at(j).getInicio() < procesos.at(i).getInicio()) {
+
+              pTemp.setIdP(procesos.at(i).getIdP());
+              pTemp.setDuracion(procesos.at(i).getDuracion());
+              pTemp.setInicio(procesos.at(i).getInicio());
+
+              procesos.at(i).setIdP(procesos.at(j).getIdP());
+              procesos.at(i).setDuracion(procesos.at(j).getDuracion());
+              procesos.at(i).setInicio(procesos.at(j).getInicio());
+
+              procesos.at(j).setIdP(pTemp.getIdP());
+              procesos.at(j).setDuracion(pTemp.getDuracion());
+              procesos.at(j).setInicio(pTemp.getInicio());
+            }
+        }
+    }
+}
+
 void Menu::init()
 {
     Metodos me;
     int opc = 0;
     const int cantidadMaximaProcesos = PROCESOS_RESTANTES;
     int procesosRestantes = PROCESOS_RESTANTES;
-    vector<Proceso> procesos;
 
     cout<<"Antes de comenzar, procura seleccionar el tama\244o de la fuente 36, fuente Consolas,"<<endl
         <<"el tama\244o del buffer de la ventana: 120, 9001"<<endl
@@ -346,23 +407,28 @@ void Menu::init()
                 procesosRestantes = me.agregarProcesoMan(procesosRestantes, procesos);
                 limpiarMenu();
                 mostrarProcesosAgregados(procesos.back(), "", procesos.size());
+                procesosAux = procesos;
                 break;
 
             case 2:
                 procesosRestantes = me.agregarProcesoAut(procesosRestantes, procesos);
                 limpiarMenu();
                 mostrarProcesosAgregados(procesos.back(), "", procesos.size());
+                procesosAux = procesos;
                 break;
 
             case 3:
                 me.modificarProceso(procesosRestantes, cantidadMaximaProcesos, procesos);
                 limpiarMenu();
+                procesosAux = procesos;
                 break;
 
             case 4:
                 gotoxy(28,4); cout<<"                       ";
+                bubbleSort(procesos);
                 limpiarMenu();
-                procesosEjecucion();
+                procesosEjecucion(procesos);
+
                 cuadroProcesosEjecucion();
                 getchar();
                 break;
