@@ -14,7 +14,7 @@ public:
     Validaciones();
 
     bool validarEntradaMenu(string resp);
-    bool validarEntradaProceso(string resp);
+    bool validarEntradaProceso(string resp, int opc);
     bool validarEntradaModificar(string resp);
     void validarProcesoExistente(string resp, vector<Proceso> &procesos, int *pos, int *err);
 

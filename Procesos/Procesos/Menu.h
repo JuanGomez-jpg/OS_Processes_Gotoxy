@@ -26,12 +26,12 @@ public:
     void gotoxy(int x,int y);
     void SetColor(int ForgC);
     void procesosEjecucion(vector<Proceso> procesos);
-    void cuadroProcesosEjecucion();
+    void cuadroProcesosEjecucion(int col);
     void limpiarMenu();
     int MenuOpc (int procesosRestantes, int maxProcesos);
     void init();
     void mostrarProcesosAgregados(Proceso p, string action, int size);
-    void sortAscending();
+    void bubbleSort(vector<Proceso> &procesos);
 
 private:
     vector<Proceso> procesos;

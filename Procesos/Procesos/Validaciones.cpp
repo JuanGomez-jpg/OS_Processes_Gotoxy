@@ -35,7 +35,7 @@ bool Validaciones::validarEntradaMenu(string resp)
     return false;
 }
 
-bool Validaciones::validarEntradaProceso(string resp)
+bool Validaciones::validarEntradaProceso(string resp, int opc)
 {
     // Variable bandera
     bool val = false;
@@ -54,9 +54,19 @@ bool Validaciones::validarEntradaProceso(string resp)
     if (!val)
     {
         int respAux = atoi(a);
-        if (respAux < 0)
+        if (opc == 1)
         {
-            val = true;
+            if (respAux < 0 || respAux > 70)
+            {
+                val = true;
+            }
+        }
+        else
+        {
+            if (respAux < 2 || respAux > 70)
+            {
+                val = true;
+            }
         }
     }
 

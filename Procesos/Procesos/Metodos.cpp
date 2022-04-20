@@ -63,41 +63,41 @@ int Metodos::agregarProcesoMan(int procesosRestantes, vector<Proceso> &procesos)
 
         // Inicio - Entrada
 
-        gotoxy(55, 5); cout<<"Inicio (0- ): ";
-        gotoxy(68, 5); getline(cin, resp);
+        gotoxy(55, 5); cout<<"Inicio (0-70): ";
+        gotoxy(69, 5); getline(cin, resp);
         fflush(stdin);
 
         resp = removerEspacios(resp);
-        if (val.validarEntradaProceso(resp))
+        if (val.validarEntradaProceso(resp, 1))
         {
             do
             {
                 resp = "";
                 ad.advertenciaErrorProcesos(1, procesos);
-                gotoxy(68, 5); getline(cin, resp);
+                gotoxy(69, 5); getline(cin, resp);
                 fflush(stdin);
                 resp = removerEspacios(resp);
-            }while (val.validarEntradaProceso(resp) != false);
+            }while (val.validarEntradaProceso(resp, 1) != false);
         }
         inicio = stoi(resp);
 
         // Duracion - Entrada
 
-        gotoxy(55, 7); cout<<("Duraci\242n (1- ): ");
-        gotoxy(70, 7); getline(cin, resp);
+        gotoxy(55, 7); cout<<("Duraci\242n (2-70): ");
+        gotoxy(71, 7); getline(cin, resp);
         fflush(stdin);
 
         resp = removerEspacios(resp);
-        if (val.validarEntradaProceso(resp))
+        if (val.validarEntradaProceso(resp, 2))
         {
             do
             {
                 resp = "";
                 ad.advertenciaErrorProcesos(2, procesos);
-                gotoxy(70, 7); getline(cin, resp);
+                gotoxy(71, 7); getline(cin, resp);
                 fflush(stdin);
                 resp = removerEspacios(resp);
-            }while (val.validarEntradaProceso(resp) != false);
+            }while (val.validarEntradaProceso(resp, 2) != false);
         }
         duracion = stoi(resp);
 
@@ -141,8 +141,8 @@ int Metodos::agregarProcesoAut(int procesosRestantes, vector<Proceso> &procesos)
         m.limpiarMenu();
 
         Proceso p;
-        p.setInicio(rand() % 200);
-        p.setDuracion(1 + rand() % 200);
+        p.setInicio(rand() % 70);
+        p.setDuracion(1 + rand() % 70);
         string id = "P" + to_string(procesos.size() + 1);
         int posCol = 0;
 
@@ -269,41 +269,41 @@ void Metodos::modificar(vector<Proceso> &procesos)
 
     // Inicio - Entrada
 
-    gotoxy(55, 5); cout<<"Inicio (0- ): ";
-    gotoxy(68, 5); getline(cin, resp);
+    gotoxy(55, 5); cout<<"Inicio (0-70): ";
+    gotoxy(69, 5); getline(cin, resp);
     fflush(stdin);
 
     resp = removerEspacios(resp);
-    if (val.validarEntradaProceso(resp))
+    if (val.validarEntradaProceso(resp, 1))
     {
         do
         {
             resp = "";
             ad.advertenciaErrorProcesos(1, procesos);
-            gotoxy(68, 5); getline(cin, resp);
+            gotoxy(69, 5); getline(cin, resp);
             fflush(stdin);
             resp = removerEspacios(resp);
-        }while (val.validarEntradaProceso(resp) != false);
+        }while (val.validarEntradaProceso(resp, 1) != false);
     }
     inicio = stoi(resp);
 
     // Duracion - Entrada
 
-    gotoxy(55, 7); cout<<("Duraci\242n (1- ): ");
-    gotoxy(70, 7); getline(cin, resp);
+    gotoxy(55, 7); cout<<("Duraci\242n (2-70): ");
+    gotoxy(71, 7); getline(cin, resp);
     fflush(stdin);
 
     resp = removerEspacios(resp);
-    if (val.validarEntradaProceso(resp))
+    if (val.validarEntradaProceso(resp, 2))
     {
         do
         {
             resp = "";
             ad.advertenciaErrorProcesos(2, procesos);
-            gotoxy(70, 7); getline(cin, resp);
+            gotoxy(71, 7); getline(cin, resp);
             fflush(stdin);
             resp = removerEspacios(resp);
-        }while (val.validarEntradaProceso(resp) != false);
+        }while (val.validarEntradaProceso(resp, 2) != false);
     }
     duracion = stoi(resp);
 

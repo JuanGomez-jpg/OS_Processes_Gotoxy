@@ -161,38 +161,22 @@ void Menu::procesosEjecucion(vector<Proceso> procesos)
         // Esquinas - Izquierda + 2
         gotoxy(44, procesos.at(i).getColT() - 1); printf("%c",185);
         gotoxy(44, procesos.at(i).getColT() + 1); printf("%c",188);
-
-        // Rescatar el ID del proceso en un string
-        string id = "";
-        for (size_t k(1) ; k < procesos.at(i).getIdP().size() ; ++k)
-        {
-            id += procesos.at(i).getIdP().at(k);
-        }
-
-        // Comparar si el proceso a modificar no es el último de la tabla
-        // Si lo es, entra al if y modificar los contornos de la tabla
-        int p = procesos.size();
-        if (p > atoi(id.c_str()))
-        {
-            gotoxy(27, procesos.at(i).getColT() + 1); printf("%c",204);
-            gotoxy(32, procesos.at(i).getColT() + 1); printf("%c",206);
-            gotoxy(44, procesos.at(i).getColT() + 1); printf("%c",185);
-        }
+        Sleep(50);
     }
 }
 
-void Menu::cuadroProcesosEjecucion()
+void Menu::cuadroProcesosEjecucion(int col)
 {
     SetColor(9); // Azul claro
     // Filas
-    for (int i(46) ; i < 119 ; ++i)
+    for (int i(46) ; i < 118 ; ++i)
     {
         gotoxy(i,4); printf("%c",205);
-        gotoxy(i,24); printf("%c",205);
+        gotoxy(i,col+1); printf("%c",205);
         Sleep(1);
     }
     // Columnas
-    for (int i(5); i < 24; ++i)
+    for (int i(5); i < col+1 ; ++i)
     {
         gotoxy(45,i); printf("%c",186);
         gotoxy(118,i); printf("%c",186);
@@ -203,12 +187,17 @@ void Menu::cuadroProcesosEjecucion()
     gotoxy(45,4); printf("%c",201);
     gotoxy(118,4); printf("%c",187);
     // Esquinas inferiores
-    gotoxy(45,24); printf("%c",200);
-    gotoxy(118,24); printf("%c",188);
+    gotoxy(45,col+1); printf("%c",200);
+    gotoxy(118,col+1); printf("%c",188);
 
     SetColor(15); // Blanco
     // Titulo
     gotoxy(48, 3); cout<<"Ejecuci\242n de procesos";
+
+    for (int i(46); i < 118; ++i)
+    {
+        gotoxy(i,5); cout<<"*";
+    }
 }
 
 void Menu::limpiarMenu()
@@ -354,9 +343,10 @@ void Menu::mostrarProcesosAgregados(Proceso p, string action, int size)
     }
 
     SetColor(15); // Blanco
+    Sleep(50);
 }
 
-void bubbleSort(vector<Proceso> &procesos)
+void Menu::bubbleSort(vector<Proceso> &procesos)
 {
     Proceso pTemp;
     int size = procesos.size();
@@ -383,6 +373,7 @@ void bubbleSort(vector<Proceso> &procesos)
 void Menu::init()
 {
     Metodos me;
+    Advertencias ad;
     int opc = 0;
     const int cantidadMaximaProcesos = PROCESOS_RESTANTES;
     int procesosRestantes = PROCESOS_RESTANTES;
@@ -424,13 +415,21 @@ void Menu::init()
                 break;
 
             case 4:
-                gotoxy(28,4); cout<<"                       ";
-                bubbleSort(procesos);
-                limpiarMenu();
-                procesosEjecucion(procesos);
+                if ((cantidadMaximaProcesos - procesosRestantes) == 0)
+                {
+                    ad.advertenciaNoProcesos();
+                }
+                else
+                {
+                    gotoxy(28,4); cout<<"                       ";
+                    bubbleSort(procesos);
+                    limpiarMenu();
+                    procesosEjecucion(procesos);
 
-                cuadroProcesosEjecucion();
-                getchar();
+                    cuadroProcesosEjecucion(procesos.at(procesos.size()-1).getColT());
+                    getchar();
+
+                }
                 break;
 
             case 5:
