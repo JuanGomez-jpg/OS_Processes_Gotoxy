@@ -321,3 +321,41 @@ void Metodos::modificar(vector<Proceso> &procesos)
     }
 }
 
+void Metodos::inicializarProcesos(vector<Proceso> &procesos)
+{
+    gotoxy(46, procesos.at(procesos.size()-1).getColT() + 2); cout<<""<<procesos.at(0).getInicio();
+
+    int tme = procesos.at(procesos.size()-1).getInicio() + procesos.at(procesos.size()-1).getDuracion();
+
+    // Sacar mitad del proceso con mayor inicio
+    float mitad = tme / 2;
+    string m = to_string(mitad);
+    bool val = false;
+    for (size_t i(0) ; i < m.size(); ++i)
+        if (m.at(i) == '.' && m.at(i + 1) == '0')
+        {
+            val = true;
+            break;
+        }
+
+    if (val)
+    {
+        if(m.find('.') != std::string::npos)
+        {
+            // Remove trailing zeroes
+            m = m.substr(0, m.find_last_not_of('0')+1);
+            // If the decimal point is now the last character, remove that as well
+            if(m.find('.') == m.size()-1)
+            {
+                m = m.substr(0, m.size()-1);
+            }
+        }
+        gotoxy(81, procesos.at(procesos.size()-1).getColT() + 2); cout<< m;
+    }
+    else
+    {
+        gotoxy(81, procesos.at(procesos.size()-1).getColT() + 2); printf("%.1f", mitad);
+    }
+    gotoxy(116, procesos.at(procesos.size()-1).getColT() + 2); cout<<""<<tme;
+}
+

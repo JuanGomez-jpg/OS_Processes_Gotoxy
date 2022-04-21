@@ -198,6 +198,7 @@ void Menu::cuadroProcesosEjecucion(int col)
     {
         gotoxy(i,5); cout<<"*";
     }
+
 }
 
 void Menu::limpiarMenu()
@@ -427,6 +428,7 @@ void Menu::init()
                     procesosEjecucion(procesos);
 
                     cuadroProcesosEjecucion(procesos.at(procesos.size()-1).getColT());
+                    me.inicializarProcesos(procesos);
                     getchar();
 
                 }

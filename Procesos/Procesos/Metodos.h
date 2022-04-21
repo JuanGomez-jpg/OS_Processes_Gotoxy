@@ -4,6 +4,9 @@
 #include <iostream>
 #include <vector>
 #include <windows.h>
+#include <math.h>
+
+#include<bits/stdc++.h>
 #include "Proceso.h"
 #include "Menu.h"
 #include "Advertencias.h"
@@ -23,6 +26,7 @@ public:
     string removerEspacios(string resp);
     void modificarProceso(int procesosRestantes, int cantidadMaxProc, vector<Proceso> &procesos);
     void modificar(vector<Proceso> &procesos);
+    void inicializarProcesos(vector<Proceso> &procesos);
 
 private:
 
