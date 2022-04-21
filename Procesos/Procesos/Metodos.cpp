@@ -335,7 +335,7 @@ void Metodos::modificar(vector<Proceso> &procesos)
     }
 }
 
-void sortAscending(vector<Proceso> &procesos)
+void Metodos::sortAscending(vector<Proceso> &procesos)
 {
     struct ascendingData{
         inline bool operator () (const Proceso& p1, const Proceso p2){
@@ -346,7 +346,7 @@ void sortAscending(vector<Proceso> &procesos)
     sort(procesos.begin(), procesos.end(), ascendingData());
 }
 
-void Metodos::valoresInferioresProcesos(vector<Proceso> procesos)
+int Metodos::valoresInferioresProcesos(vector<Proceso> procesos)
 {
     vector <Proceso> proAux = procesos;
 
@@ -356,7 +356,7 @@ void Metodos::valoresInferioresProcesos(vector<Proceso> procesos)
 
     int tme = proAux.at(proAux.size() - 1).getMaxVal();
 
-    // Sacar mitad del proceso con mayor inicio
+    // Sacar mitad del proceso con mayor inicio y duración
     float mitad = tme / 2;
     string m = to_string(mitad);
     bool val = false;
@@ -379,31 +379,49 @@ void Metodos::valoresInferioresProcesos(vector<Proceso> procesos)
                 m = m.substr(0, m.size()-1);
             }
         }
-        gotoxy(79, procesos.at(procesos.size()-1).getColT() + 2); cout<< m;
+        gotoxy(46 + mitad, procesos.at(procesos.size()-1).getColT() + 2); cout<< m;
     }
     else
     {
-        gotoxy(79, procesos.at(procesos.size()-1).getColT() + 2); printf("%.1f", mitad);
+        gotoxy(46 + mitad, procesos.at(procesos.size()-1).getColT() + 2); printf("%.1f", mitad);
     }
 
+    gotoxy(47 + tme, procesos.at(procesos.size()-1).getColT() + 2); cout<<""<<tme;
 
-    gotoxy(117, procesos.at(procesos.size()-1).getColT() + 2); cout<<""<<tme;
+    return tme;
 }
 
-void Metodos::run(vector<Proceso> procesos, vector<Proceso> procesosAux)
+void Metodos::run(vector<Proceso> procesos, vector<Proceso> procesosAux, int tme)
 {
     int x = 0, y = 0;
+    int inicio = 0, fin = 0, k = 1;
     for (size_t i (0) ; i < procesos.size() ; ++i)
     {
-        x = procesosAux.at(i).getFilB();
-        y = procesosAux.at(i).getColB() -1;
-        SetColor(procesos.at(i).getColorB()); // Colorear barra
-        gotoxy(x, y); printf("%c",219);
-
         SetColor(15); // Blanco
         x = procesosAux.at(i).getFilB() + procesosAux.at(i).getDuracion() + 1;
         y = procesosAux.at(i).getColB() -1;
         gotoxy(x, y); cout<<procesosAux.at(i).getIdP();
+    }
+
+
+    for (size_t i (0) ; i < procesos.size() ; ++i)
+    {
+        x = procesos.at(i).getFilB();
+        y = procesos.at(i).getColB() -1;
+
+        inicio = procesos.at(i).getInicio();
+        fin = procesos.at(i).getDuracion();
+        SetColor(procesos.at(i).getColorB()); // Colorear barra
+        k = 1;
+
+        for (int j (inicio) ; j < fin + inicio + 1 ; ++j)
+        {
+            gotoxy(x, y); printf("%c",219);
+            x = procesos.at(i).getFilB() +k;
+            //y = procesosAux.at(i).getColB() -1;
+            ++k;
+            Sleep(500);
+        }
     }
 }
 

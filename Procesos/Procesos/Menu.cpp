@@ -165,11 +165,11 @@ void Menu::procesosEjecucion(vector<Proceso> procesos)
     }
 }
 
-void Menu::cuadroProcesosEjecucion(int col)
+void Menu::cuadroProcesosEjecucion(int col, int tme)
 {
     SetColor(9); // Azul claro
     // Filas
-    for (int i(46) ; i < 118 ; ++i)
+    for (int i(46) ; i < tme ; ++i)
     {
         gotoxy(i,4); printf("%c",205);
         gotoxy(i,col+1); printf("%c",205);
@@ -179,22 +179,22 @@ void Menu::cuadroProcesosEjecucion(int col)
     for (int i(5); i < col+1 ; ++i)
     {
         gotoxy(45,i); printf("%c",186);
-        gotoxy(118,i); printf("%c",186);
+        gotoxy(tme,i); printf("%c",186);
         Sleep(1);
     }
 
     // Esquinas superiores
     gotoxy(45,4); printf("%c",201);
-    gotoxy(118,4); printf("%c",187);
+    gotoxy(tme,4); printf("%c",187);
     // Esquinas inferiores
     gotoxy(45,col+1); printf("%c",200);
-    gotoxy(118,col+1); printf("%c",188);
+    gotoxy(tme,col+1); printf("%c",188);
 
     SetColor(15); // Blanco
     // Titulo
     gotoxy(48, 3); cout<<"Ejecuci\242n de procesos";
 
-    for (int i(46); i < 118; ++i)
+    for (int i(46); i < tme; ++i)
     {
         gotoxy(i,5); cout<<"*";
         gotoxy(i,col); cout<<"*";
@@ -363,22 +363,39 @@ void Menu::bubbleSort(vector<Proceso> &procesos)
               pTemp.setColorB(procesos.at(i).getColorB());
               pTemp.setDuracion(procesos.at(i).getDuracion());
               pTemp.setInicio(procesos.at(i).getInicio());
-              //pTemp.setColB(procesos.at(i).getColB());
+
+              pTemp.setColB(procesos.at(i).getColB());
               pTemp.setFilB(procesos.at(i).getFilB());
+              //pTemp.setColT(procesos.at(i).getColT());
+              pTemp.setFilT(procesos.at(i).getFilT());
+
+              pTemp.setMaxVal(procesos.at(i).getMaxVal());
+
 
               procesos.at(i).setIdP(procesos.at(j).getIdP());
               procesos.at(i).setDuracion(procesos.at(j).getDuracion());
               procesos.at(i).setInicio(procesos.at(j).getInicio());
               procesos.at(i).setColorB(procesos.at(j).getColorB());
-              //procesos.at(i).setColB(procesos.at(j).getColB());
+
+              procesos.at(i).setColB(procesos.at(j).getColB());
               procesos.at(i).setFilB(procesos.at(j).getFilB());
+              //procesos.at(i).setColT(procesos.at(j).getColT());
+              procesos.at(i).setFilT(procesos.at(j).getFilT());
+
+              procesos.at(i).setMaxVal(procesos.at(j).getMaxVal());
+
 
               procesos.at(j).setIdP(pTemp.getIdP());
               procesos.at(j).setDuracion(pTemp.getDuracion());
               procesos.at(j).setInicio(pTemp.getInicio());
               procesos.at(j).setColorB(pTemp.getColorB());
-              //procesos.at(j).setColB(pTemp.getColB());
+
+              procesos.at(j).setColB(pTemp.getColB());
               procesos.at(j).setFilB(pTemp.getFilB());
+              //procesos.at(j).setColT(pTemp.getColT());
+              procesos.at(j).setFilT(pTemp.getFilT());
+
+              procesos.at(j).setMaxVal(pTemp.getMaxVal());
             }
         }
     }
@@ -388,7 +405,7 @@ void Menu::init()
 {
     Metodos me;
     Advertencias ad;
-    int opc = 0;
+    int opc = 0, tme = 0;
     const int cantidadMaximaProcesos = PROCESOS_RESTANTES;
     int procesosRestantes = PROCESOS_RESTANTES;
 
@@ -440,9 +457,11 @@ void Menu::init()
                     limpiarMenu();
                     procesosEjecucion(procesos);
 
-                    cuadroProcesosEjecucion(procesos.at(procesos.size()-1).getColT());
-                    me.valoresInferioresProcesos(procesos);
-                    me.run(procesos, procesosAux);
+                    tme = me.valoresInferioresProcesos(procesos);
+
+                    cuadroProcesosEjecucion(procesos.at(procesos.size()-1).getColT(), tme + 49);
+
+                    me.run(procesos, procesosAux, tme);
                     getchar();
 
                 }

@@ -26,8 +26,9 @@ public:
     string removerEspacios(string resp);
     void modificarProceso(int procesosRestantes, int cantidadMaxProc, vector<Proceso> &procesos);
     void modificar(vector<Proceso> &procesos);
-    void valoresInferioresProcesos(vector<Proceso> procesos);
-    void run(vector<Proceso> procesos, vector<Proceso> procesosAux);
+    int valoresInferioresProcesos(vector<Proceso> procesos);
+    void run(vector<Proceso> procesos, vector<Proceso> procesosAux, int tme);
+    void sortAscending(vector<Proceso> &procesos);
 
 private:
 

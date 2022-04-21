@@ -26,7 +26,7 @@ public:
     void gotoxy(int x,int y);
     void SetColor(int ForgC);
     void procesosEjecucion(vector<Proceso> procesos);
-    void cuadroProcesosEjecucion(int col);
+    void cuadroProcesosEjecucion(int col, int tme);
     void limpiarMenu();
     int MenuOpc (int procesosRestantes, int maxProcesos);
     void init();
