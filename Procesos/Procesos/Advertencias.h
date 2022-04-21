@@ -17,7 +17,7 @@ public:
     void SetColor(int ForgC);
     void advertenciaNoProcesos();
     void advertenciaErrorMaximoProcesos();
-    void advertenciaErrorProcesos(int ent, vector<Proceso> &proceso);
+    void advertenciaErrorProcesos(int ent, vector<Proceso> &proceso, int limSup);
     void advertenciaErrorMenu();
 
 private:

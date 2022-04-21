@@ -26,12 +26,21 @@ class Proceso{
         int getFilT() const;
         void setFilT(int newFilT);
 
-        int getBarra() const;
-        void setBarra(int newBarra);
+        int getColorB() const;
+        void setColorB(int newColorB);
+
+        int getColB() const;
+        void setColB(int newColB);
+
+        int getFilB() const;
+        void setFilB(int newFilB);
+
+        int getMaxVal() const;
+        void setMaxVal(int newMaxVal);
 
 private:
         string idP;
-        int inicio, duracion, colT, filT, barra;
+        int inicio, duracion, colT, filT, colorB, colB, filB, maxVal;
 
 };
 

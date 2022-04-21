@@ -35,7 +35,7 @@ bool Validaciones::validarEntradaMenu(string resp)
     return false;
 }
 
-bool Validaciones::validarEntradaProceso(string resp, int opc)
+bool Validaciones::validarEntradaProceso(string resp, int opc, int limSup)
 {
     // Variable bandera
     bool val = false;
@@ -56,14 +56,14 @@ bool Validaciones::validarEntradaProceso(string resp, int opc)
         int respAux = atoi(a);
         if (opc == 1)
         {
-            if (respAux < 0 || respAux > 70)
+            if (respAux < 0 || respAux > 67)
             {
                 val = true;
             }
         }
         else
         {
-            if (respAux < 2 || respAux > 70)
+            if (respAux < 2 || respAux > limSup)
             {
                 val = true;
             }

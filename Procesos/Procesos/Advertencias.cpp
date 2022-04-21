@@ -131,7 +131,7 @@ void Advertencias::advertenciaErrorMaximoProcesos()
     SetColor(15); // Blanco
 }
 
-void Advertencias::advertenciaErrorProcesos(int ent, vector<Proceso> &proceso)
+void Advertencias::advertenciaErrorProcesos(int ent, vector<Proceso> &proceso, int limSup)
 {
     SetColor(7); // Blanco
     // Filas y columnas del mensaje de error
@@ -160,7 +160,7 @@ void Advertencias::advertenciaErrorProcesos(int ent, vector<Proceso> &proceso)
     // Error - Agregar Proceso Manualmente
     if (ent == 1)
     {
-        gotoxy(55,16); cout<<"entre 0 y 70";
+        gotoxy(55,16); cout<<"entre 0 y 67";
         // Limpiar respuesta
         for (int i (69) ; i < 119 ; ++i)
         {
@@ -170,7 +170,7 @@ void Advertencias::advertenciaErrorProcesos(int ent, vector<Proceso> &proceso)
     // Error - Agregar Proceso Manualmente
     else if (ent == 2)
     {
-        gotoxy(55,16); cout<<"entre 2 y 70";
+        gotoxy(55,16); cout<<"entre 2 y "<<limSup;
         // Limpiar respuesta
         for (int i (71) ; i < 119 ; ++i)
         {

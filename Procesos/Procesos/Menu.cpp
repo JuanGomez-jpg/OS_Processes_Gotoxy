@@ -197,6 +197,7 @@ void Menu::cuadroProcesosEjecucion(int col)
     for (int i(46); i < 118; ++i)
     {
         gotoxy(i,5); cout<<"*";
+        gotoxy(i,col); cout<<"*";
     }
 
 }
@@ -287,10 +288,13 @@ void Menu::mostrarProcesosAgregados(Proceso p, string action, int size)
 {
     SetColor(15); // Blanco
 
-    for (int i(8) ; i < 14 ; ++i)
+    for (int i(6) ; i < 13 ; ++i)
     {
         gotoxy(i, p.getColT()); cout<<" ";
-        gotoxy(i*2, p.getColT()); cout<<" ";
+    }
+    for (int i(15) ; i < 24 ; ++i)
+    {
+        gotoxy(i, p.getColT()); cout<<" ";
     }
 
     gotoxy(3, p.getColT()); cout<<""<<p.getIdP();
@@ -356,16 +360,25 @@ void Menu::bubbleSort(vector<Proceso> &procesos)
             if (procesos.at(j).getInicio() < procesos.at(i).getInicio()) {
 
               pTemp.setIdP(procesos.at(i).getIdP());
+              pTemp.setColorB(procesos.at(i).getColorB());
               pTemp.setDuracion(procesos.at(i).getDuracion());
               pTemp.setInicio(procesos.at(i).getInicio());
+              //pTemp.setColB(procesos.at(i).getColB());
+              pTemp.setFilB(procesos.at(i).getFilB());
 
               procesos.at(i).setIdP(procesos.at(j).getIdP());
               procesos.at(i).setDuracion(procesos.at(j).getDuracion());
               procesos.at(i).setInicio(procesos.at(j).getInicio());
+              procesos.at(i).setColorB(procesos.at(j).getColorB());
+              //procesos.at(i).setColB(procesos.at(j).getColB());
+              procesos.at(i).setFilB(procesos.at(j).getFilB());
 
               procesos.at(j).setIdP(pTemp.getIdP());
               procesos.at(j).setDuracion(pTemp.getDuracion());
               procesos.at(j).setInicio(pTemp.getInicio());
+              procesos.at(j).setColorB(pTemp.getColorB());
+              //procesos.at(j).setColB(pTemp.getColB());
+              procesos.at(j).setFilB(pTemp.getFilB());
             }
         }
     }
@@ -428,7 +441,8 @@ void Menu::init()
                     procesosEjecucion(procesos);
 
                     cuadroProcesosEjecucion(procesos.at(procesos.size()-1).getColT());
-                    me.inicializarProcesos(procesos);
+                    me.valoresInferioresProcesos(procesos);
+                    me.run(procesos, procesosAux);
                     getchar();
 
                 }

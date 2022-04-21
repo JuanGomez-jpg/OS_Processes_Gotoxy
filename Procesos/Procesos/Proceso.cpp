@@ -54,13 +54,44 @@ void Proceso::setFilT(int newFilT)
     filT = newFilT;
 }
 
-int Proceso::getBarra() const
+int Proceso::getColorB() const
 {
-    return barra;
+    return colorB;
 }
 
-void Proceso::setBarra(int newBarra)
+void Proceso::setColorB(int newColorB)
 {
-    barra = newBarra;
+    colorB = newColorB;
 }
+
+int Proceso::getColB() const
+{
+    return colB;
+}
+
+void Proceso::setColB(int newColB)
+{
+    colB = newColB;
+}
+
+int Proceso::getFilB() const
+{
+    return filB;
+}
+
+void Proceso::setFilB(int newFilB)
+{
+    filB = newFilB;
+}
+
+int Proceso::getMaxVal() const
+{
+    return maxVal;
+}
+
+void Proceso::setMaxVal(int newMaxVal)
+{
+    maxVal = newMaxVal;
+}
+
 

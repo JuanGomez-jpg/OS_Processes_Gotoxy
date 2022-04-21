@@ -63,41 +63,41 @@ int Metodos::agregarProcesoMan(int procesosRestantes, vector<Proceso> &procesos)
 
         // Inicio - Entrada
 
-        gotoxy(55, 5); cout<<"Inicio (0-70): ";
+        gotoxy(55, 5); cout<<"Inicio (0-67): ";
         gotoxy(69, 5); getline(cin, resp);
         fflush(stdin);
 
         resp = removerEspacios(resp);
-        if (val.validarEntradaProceso(resp, 1))
+        if (val.validarEntradaProceso(resp, 1, 67))
         {
             do
             {
                 resp = "";
-                ad.advertenciaErrorProcesos(1, procesos);
+                ad.advertenciaErrorProcesos(1, procesos, 67);
                 gotoxy(69, 5); getline(cin, resp);
                 fflush(stdin);
                 resp = removerEspacios(resp);
-            }while (val.validarEntradaProceso(resp, 1) != false);
+            }while (val.validarEntradaProceso(resp, 1, 68) != false);
         }
         inicio = stoi(resp);
 
         // Duracion - Entrada
-
-        gotoxy(55, 7); cout<<("Duraci\242n (2-70): ");
+        int limSup = 69 - inicio;
+        gotoxy(55, 7); printf("Duraci\242n (2-%d): ",limSup);
         gotoxy(71, 7); getline(cin, resp);
         fflush(stdin);
 
         resp = removerEspacios(resp);
-        if (val.validarEntradaProceso(resp, 2))
+        if (val.validarEntradaProceso(resp, 2, limSup))
         {
             do
             {
                 resp = "";
-                ad.advertenciaErrorProcesos(2, procesos);
+                ad.advertenciaErrorProcesos(2, procesos, limSup);
                 gotoxy(71, 7); getline(cin, resp);
                 fflush(stdin);
                 resp = removerEspacios(resp);
-            }while (val.validarEntradaProceso(resp, 2) != false);
+            }while (val.validarEntradaProceso(resp, 2, limSup) != false);
         }
         duracion = stoi(resp);
 
@@ -112,10 +112,14 @@ int Metodos::agregarProcesoMan(int procesosRestantes, vector<Proceso> &procesos)
         else
             posCol = procesos.back().getColT() + 2;
 
-        p.setBarra(0);
+        p.setColorB(procesos.size() + 1);
         p.setFilT(2);
         p.setColT(posCol);
         p.setIdP(id);
+        p.setFilB(46+p.getInicio());
+        p.setColB(posCol);
+        p.setMaxVal(inicio + duracion);
+
         procesos.push_back(p);
 
         --procesosAux;
@@ -141,8 +145,12 @@ int Metodos::agregarProcesoAut(int procesosRestantes, vector<Proceso> &procesos)
         m.limpiarMenu();
 
         Proceso p;
-        p.setInicio(rand() % 70);
-        p.setDuracion(1 + rand() % 70);
+        int inicio = rand() % 67;
+        p.setInicio(inicio);
+
+        int duracion = 69 - inicio;
+        int al = 0 + rand()% (duracion + 1 - 0);
+        p.setDuracion(al);
         string id = "P" + to_string(procesos.size() + 1);
         int posCol = 0;
 
@@ -151,10 +159,13 @@ int Metodos::agregarProcesoAut(int procesosRestantes, vector<Proceso> &procesos)
         else
             posCol = procesos.back().getColT() + 2;
 
-        p.setBarra(0);
+        p.setColorB(procesos.size() + 1);
         p.setFilT(2);
         p.setColT(posCol);
+        p.setFilB(46+p.getInicio());
+        p.setColB(posCol);
         p.setIdP(id);
+        p.setMaxVal(inicio + al);
         procesos.push_back(p);
 
         --procesosAux;
@@ -199,7 +210,7 @@ void Metodos::modificarProceso(int procesosRestantes, int cantidadMaxProc, vecto
             do
             {
                 resp = "";
-                ad.advertenciaErrorProcesos(3, procesos);
+                ad.advertenciaErrorProcesos(3, procesos, 0);
                 gotoxy(65, 7); getline(cin, resp);
                 fflush(stdin);
                 resp = removerEspacios(resp);
@@ -248,7 +259,7 @@ void Metodos::modificar(vector<Proceso> &procesos)
         do
         {
             id = "";
-            ad.advertenciaErrorProcesos(err, procesos);
+            ad.advertenciaErrorProcesos(err, procesos,0);
             gotoxy(60, 5); getline(cin, id);
             fflush(stdin);
             id = removerEspacios(id);
@@ -269,41 +280,42 @@ void Metodos::modificar(vector<Proceso> &procesos)
 
     // Inicio - Entrada
 
-    gotoxy(55, 5); cout<<"Inicio (0-70): ";
+    gotoxy(55, 5); cout<<"Inicio (0-67): ";
     gotoxy(69, 5); getline(cin, resp);
     fflush(stdin);
 
     resp = removerEspacios(resp);
-    if (val.validarEntradaProceso(resp, 1))
+    if (val.validarEntradaProceso(resp, 1,67))
     {
         do
         {
             resp = "";
-            ad.advertenciaErrorProcesos(1, procesos);
+            ad.advertenciaErrorProcesos(1, procesos,67);
             gotoxy(69, 5); getline(cin, resp);
             fflush(stdin);
             resp = removerEspacios(resp);
-        }while (val.validarEntradaProceso(resp, 1) != false);
+        }while (val.validarEntradaProceso(resp, 1, 67) != false);
     }
     inicio = stoi(resp);
 
+    int limSup = 69 - inicio;
     // Duracion - Entrada
 
-    gotoxy(55, 7); cout<<("Duraci\242n (2-70): ");
+    gotoxy(55, 7); printf("Duraci\242n (2-%d): ",limSup);
     gotoxy(71, 7); getline(cin, resp);
     fflush(stdin);
 
     resp = removerEspacios(resp);
-    if (val.validarEntradaProceso(resp, 2))
+    if (val.validarEntradaProceso(resp, 2, limSup))
     {
         do
         {
             resp = "";
-            ad.advertenciaErrorProcesos(2, procesos);
+            ad.advertenciaErrorProcesos(2, procesos, limSup);
             gotoxy(71, 7); getline(cin, resp);
             fflush(stdin);
             resp = removerEspacios(resp);
-        }while (val.validarEntradaProceso(resp, 2) != false);
+        }while (val.validarEntradaProceso(resp, 2, limSup) != false);
     }
     duracion = stoi(resp);
 
@@ -313,6 +325,8 @@ void Metodos::modificar(vector<Proceso> &procesos)
     {
         procesos.at(pos).setInicio(inicio);
         procesos.at(pos).setDuracion(duracion);
+        procesos.at(pos).setMaxVal(inicio + duracion);
+        procesos.at(pos).setFilB(46+inicio);
 
         Proceso p;
 
@@ -321,11 +335,26 @@ void Metodos::modificar(vector<Proceso> &procesos)
     }
 }
 
-void Metodos::inicializarProcesos(vector<Proceso> &procesos)
+void sortAscending(vector<Proceso> &procesos)
 {
-    gotoxy(46, procesos.at(procesos.size()-1).getColT() + 2); cout<<""<<procesos.at(0).getInicio();
+    struct ascendingData{
+        inline bool operator () (const Proceso& p1, const Proceso p2){
+            return (p1.getMaxVal() < p2.getMaxVal());
+        }
+    };
 
-    int tme = procesos.at(procesos.size()-1).getInicio() + procesos.at(procesos.size()-1).getDuracion();
+    sort(procesos.begin(), procesos.end(), ascendingData());
+}
+
+void Metodos::valoresInferioresProcesos(vector<Proceso> procesos)
+{
+    vector <Proceso> proAux = procesos;
+
+    gotoxy(46, procesos.at(procesos.size()-1).getColT() + 2); cout<<"0";
+
+    sortAscending(proAux);
+
+    int tme = proAux.at(proAux.size() - 1).getMaxVal();
 
     // Sacar mitad del proceso con mayor inicio
     float mitad = tme / 2;
@@ -350,12 +379,31 @@ void Metodos::inicializarProcesos(vector<Proceso> &procesos)
                 m = m.substr(0, m.size()-1);
             }
         }
-        gotoxy(81, procesos.at(procesos.size()-1).getColT() + 2); cout<< m;
+        gotoxy(79, procesos.at(procesos.size()-1).getColT() + 2); cout<< m;
     }
     else
     {
-        gotoxy(81, procesos.at(procesos.size()-1).getColT() + 2); printf("%.1f", mitad);
+        gotoxy(79, procesos.at(procesos.size()-1).getColT() + 2); printf("%.1f", mitad);
     }
-    gotoxy(116, procesos.at(procesos.size()-1).getColT() + 2); cout<<""<<tme;
+
+
+    gotoxy(117, procesos.at(procesos.size()-1).getColT() + 2); cout<<""<<tme;
+}
+
+void Metodos::run(vector<Proceso> procesos, vector<Proceso> procesosAux)
+{
+    int x = 0, y = 0;
+    for (size_t i (0) ; i < procesos.size() ; ++i)
+    {
+        x = procesosAux.at(i).getFilB();
+        y = procesosAux.at(i).getColB() -1;
+        SetColor(procesos.at(i).getColorB()); // Colorear barra
+        gotoxy(x, y); printf("%c",219);
+
+        SetColor(15); // Blanco
+        x = procesosAux.at(i).getFilB() + procesosAux.at(i).getDuracion() + 1;
+        y = procesosAux.at(i).getColB() -1;
+        gotoxy(x, y); cout<<procesosAux.at(i).getIdP();
+    }
 }
 
