@@ -5,8 +5,9 @@
 #include <vector>
 #include <windows.h>
 #include <math.h>
-
 #include<bits/stdc++.h>
+#include <thread>
+
 #include "Proceso.h"
 #include "Menu.h"
 #include "Advertencias.h"
@@ -27,8 +28,11 @@ public:
     void modificarProceso(int procesosRestantes, int cantidadMaxProc, vector<Proceso> &procesos);
     void modificar(vector<Proceso> &procesos);
     int valoresInferioresProcesos(vector<Proceso> procesos);
-    void run(vector<Proceso> procesos, vector<Proceso> procesosAux, int tme);
+    void run(vector<Proceso> procesos, vector<Proceso> procesosAux);
     void sortAscending(vector<Proceso> &procesos);
+    void runnable (int x, int y);
+    void actualizarTablaProcesos(Proceso p);
+    void cuadroContador(int col);
 
 private:
 

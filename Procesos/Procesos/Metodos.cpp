@@ -391,37 +391,95 @@ int Metodos::valoresInferioresProcesos(vector<Proceso> procesos)
     return tme;
 }
 
-void Metodos::run(vector<Proceso> procesos, vector<Proceso> procesosAux, int tme)
+void Metodos::runnable(int x, int y)
 {
+    gotoxy(x, y); printf("%c",219);
+}
+
+void Metodos::actualizarTablaProcesos(Proceso p)
+{
+    for (int i(33) ; i < 43 ; ++i)
+    {
+        gotoxy(i, p.getColT()); cout<<" ";
+    }
+    SetColor(15); // Blanco
+    // Datos
+    gotoxy(37, p.getColT()); cout<<p.getInicio() + p.getTiempoTranscurrido();
+}
+
+void Metodos::cuadroContador(int col)
+{
+    gotoxy(7, col-1); cout<<"Contador";
+    // Filas
+    for (int i(4) ; i < 18 ; ++i)
+    {
+        gotoxy(i,col); printf("%c",205);
+        gotoxy(i,col+2); printf("%c",205);
+    }
+    // Columnas
+    gotoxy(3, col + 1); printf("%c",186);
+    gotoxy(18, col + 1); printf("%c",186);
+    // Esquinas izquierda
+    gotoxy(3, col); printf("%c",201);
+    gotoxy(3, col + 2); printf("%c",200);
+    // Esquinas derecha
+    gotoxy(18, col); printf("%c",187);
+    gotoxy(18, col + 2); printf("%c",188);
+}
+
+void Metodos::run(vector<Proceso> procesos, vector<Proceso> procesosAux)
+{
+    cuadroContador(procesos.at(procesos.size()-1).getColT() + 3);
+    vector <Proceso> proAux = procesos;
+
+    sortAscending(proAux);
+
+    int tme = proAux.at(proAux.size() - 1).getMaxVal()+1;
+    int cont = 0;
     int x = 0, y = 0;
-    int inicio = 0, fin = 0, k = 1;
+    int inicio = 0, final = 0;
+
     for (size_t i (0) ; i < procesos.size() ; ++i)
     {
         SetColor(15); // Blanco
         x = procesosAux.at(i).getFilB() + procesosAux.at(i).getDuracion() + 1;
         y = procesosAux.at(i).getColB() -1;
         gotoxy(x, y); cout<<procesosAux.at(i).getIdP();
+        procesos.at(i).setTiempoTranscurrido(0);
     }
 
+    gotoxy(10, procesos.at(procesos.size()-1).getColT() + 4); cout<<cont;
+    Proceso p;
 
-    for (size_t i (0) ; i < procesos.size() ; ++i)
+    for (int i(0) ; i < tme ; ++i)
     {
-        x = procesos.at(i).getFilB();
-        y = procesos.at(i).getColB() -1;
-
-        inicio = procesos.at(i).getInicio();
-        fin = procesos.at(i).getDuracion();
-        SetColor(procesos.at(i).getColorB()); // Colorear barra
-        k = 1;
-
-        for (int j (inicio) ; j < fin + inicio + 1 ; ++j)
+        for (size_t k (0) ; k < procesos.size() ; ++k)
         {
-            gotoxy(x, y); printf("%c",219);
-            x = procesos.at(i).getFilB() +k;
-            //y = procesosAux.at(i).getColB() -1;
-            ++k;
-            Sleep(500);
+            inicio = procesos.at(k).getInicio(); // Donde inicia el proceso
+            final = procesos.at(k).getMaxVal();  // Donde termina
+            if (i >= inicio && i <= final)
+            {
+                p = procesos.at(k);
+                actualizarTablaProcesos(p);
+                x = procesos.at(k).getFilB() + procesos.at(k).getTiempoTranscurrido();
+                y = procesos.at(k).getColB() - 1;
+                SetColor(procesos.at(k).getColorB()); // Colorear barra
+                runnable(x,y);
+                procesos.at(k).setTiempoTranscurrido(procesos.at(k).getTiempoTranscurrido() + 1);
+            }
         }
+        Sleep(100);
+        ++cont;
+        SetColor(15); // Blanco
+        if (cont >= tme)
+            --cont;
+
+        gotoxy(10, procesos.at(procesos.size()-1).getColT() + 4); cout<<cont;
     }
+
+    SetColor(15); // Blanco
+    gotoxy(28,procesos.at(procesos.size()-1).getColT() + 4); cout<<"Presione cualquier tecla para continuar (se limpiar\240n todos los procesos)";
+    gotoxy(50,procesos.at(procesos.size()-1).getColT() + 5); system("pause");
+
 }
 

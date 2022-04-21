@@ -38,9 +38,12 @@ class Proceso{
         int getMaxVal() const;
         void setMaxVal(int newMaxVal);
 
+        int getTiempoTranscurrido() const;
+        void setTiempoTranscurrido(int newTiempoTranscurrido);
+
 private:
         string idP;
-        int inicio, duracion, colT, filT, colorB, colB, filB, maxVal;
+        int inicio, duracion, colT, filT, colorB, colB, filB, maxVal ,tiempoTranscurrido;
 
 };
 

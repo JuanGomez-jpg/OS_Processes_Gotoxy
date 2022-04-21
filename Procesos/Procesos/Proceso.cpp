@@ -94,4 +94,14 @@ void Proceso::setMaxVal(int newMaxVal)
     maxVal = newMaxVal;
 }
 
+int Proceso::getTiempoTranscurrido() const
+{
+    return tiempoTranscurrido;
+}
+
+void Proceso::setTiempoTranscurrido(int newTiempoTranscurrido)
+{
+    tiempoTranscurrido = newTiempoTranscurrido;
+}
+
 

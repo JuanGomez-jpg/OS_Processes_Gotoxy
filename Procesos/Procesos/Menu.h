@@ -32,6 +32,7 @@ public:
     void init();
     void mostrarProcesosAgregados(Proceso p, string action, int size);
     void bubbleSort(vector<Proceso> &procesos);
+    void limpiarPantallaCompleta();
 
 private:
     vector<Proceso> procesos;
