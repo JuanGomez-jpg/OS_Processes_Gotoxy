@@ -23,7 +23,7 @@ void Metodos::SetColor(int ForgC)
     {
         wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
         SetConsoleTextAttribute(hStdOut, wColor);
-   } //End
+    }
 
     return;
 }
@@ -354,7 +354,7 @@ int Metodos::valoresInferioresProcesos(vector<Proceso> procesos)
 
     sortAscending(proAux);
 
-    int tme = proAux.at(proAux.size() - 1).getMaxVal();
+    float tme = proAux.at(proAux.size() - 1).getMaxVal();
 
     // Sacar mitad del proceso con mayor inicio y duración
     float mitad = tme / 2;
@@ -416,84 +416,85 @@ void Metodos::imprimirContador(int con, int posY)
         switch(d)
         {
             case 0:
-                gotoxy(12 + inc, posY);
-                printf("%c%c%c", 201, 205, 187);
-                gotoxy(12 + inc, posY + 1);
-                printf("%c %c", 186, 186);
-                gotoxy(12 + inc, posY + 2);
-                printf("%c%c%c", 200, 205, 188);
+                gotoxy(14 + inc, posY);
+                printf("%c%c%c", 218, 196, 191);
+                gotoxy(14 + inc, posY + 1);
+                printf("%c %c", 179, 179);
+                gotoxy(14 + inc, posY + 2);
+                printf("%c%c%c", 192, 196, 217);
                 break;
             case 1:
-                gotoxy(12 + inc, posY);
-                printf(" %c ", 187);
-                gotoxy(12 + inc, posY + 1);
-                printf(" %c ", 186);
-                gotoxy(12 + inc, posY + 2);
-                printf(" %c ", 202);
+                gotoxy(14 + inc, posY);
+                printf(" %c ", 191);
+                gotoxy(14 + inc, posY + 1);
+                printf(" %c ", 179);
+                gotoxy(14 + inc, posY + 2);
+                printf(" %c ", 193);
                 break;
             case 2:
-                gotoxy(12 + inc, posY);
-                printf("%c%c%c", 201, 205, 187);
-                gotoxy(12 + inc, posY + 1);
-                printf("%c%c%c", 201, 205, 188);
-                gotoxy(12 + inc, posY + 2);
-                printf("%c%c%c", 200, 205, 188);
+                gotoxy(14 + inc, posY);
+                printf("%c%c%c", 218, 196, 191);
+                gotoxy(14 + inc, posY + 1);
+                printf("%c%c%c", 218, 196, 217);
+                gotoxy(14 + inc, posY + 2);
+                printf("%c%c%c", 192, 196, 217);
                 break;
             case 3:
-                gotoxy(12 + inc, posY);
-                printf("%c%c%c", 205, 205, 187);
-                gotoxy(12 + inc, posY + 1);
-                printf("%c%c%c", 205, 205, 185);
-                gotoxy(12 + inc, posY + 2);
-                printf("%c%c%c", 205, 205, 188);
+                gotoxy(14 + inc, posY);
+                printf("%c%c%c", 196, 196, 191);
+                gotoxy(14 + inc, posY + 1);
+                printf("%c%c%c", 196, 196, 180);
+                gotoxy(14 + inc, posY + 2);
+                printf("%c%c%c", 196, 196, 217);
                 break;
             case 4:
-                gotoxy(12 + inc, posY);
-                printf("%c %c", 186, 186);
-                gotoxy(12 + inc, posY + 1);
-                printf("%c%c%c", 200, 205, 185);
-                gotoxy(12 + inc, posY + 2);
-                printf("  %c", 186);
+                gotoxy(14 + inc, posY);
+                printf("%c %c", 179, 179);
+                gotoxy(14 + inc, posY + 1);
+                printf("%c%c%c", 192, 196, 180);
+                gotoxy(14 + inc, posY + 2);
+                printf("  %c", 179);
+
                 break;
             case 5:
-                gotoxy(12 + inc, posY);
-                printf("%c%c%c", 201, 205, 187);
-                gotoxy(12 + inc, posY + 1);
-                printf("%c%c%c", 200, 205, 187);
-                gotoxy(12 + inc, posY + 2);
-                printf("%c%c%c", 200, 205, 188);
+                gotoxy(14 + inc, posY);
+                printf("%c%c%c", 218, 196, 191);
+                gotoxy(14 + inc, posY + 1);
+                printf("%c%c%c", 192, 196, 191);
+                gotoxy(14 + inc, posY + 2);
+                printf("%c%c%c", 192, 196, 217);
                 break;
             case 6:
-                gotoxy(12 + inc, posY);
-                printf("%c%c%c", 201, 205, 187);
-                gotoxy(12 + inc, posY + 1);
-                printf("%c%c%c", 186, 205, 187);
-                gotoxy(12 + inc, posY + 2);
-                printf("%c%c%c", 200, 205, 188);
+                gotoxy(14 + inc, posY);
+                printf("%c%c%c", 218, 196, 191);
+                gotoxy(14 + inc, posY + 1);
+                printf("%c%c%c", 179, 196, 191);
+                gotoxy(14 + inc, posY + 2);
+                printf("%c%c%c", 192, 196, 217);
                 break;
             case 7:
-                gotoxy(12 + inc, posY);
-                printf("%c%c%c", 205, 205, 187);
-                gotoxy(12 + inc, posY + 1);
-                printf(" %c%c", 205, 185);
-                gotoxy(12 + inc, posY + 2);
-                printf("  %c", 186);
+                gotoxy(14 + inc, posY);
+                printf("%c%c%c", 196, 196, 191);
+                gotoxy(14 + inc, posY + 1);
+                printf(" %c%c", 196, 180);
+                gotoxy(14 + inc, posY + 2);
+                printf("  %c", 179);
                 break;
             case 8:
-                gotoxy(12 + inc, posY);
-                printf("%c%c%c", 201, 205, 187);
-                gotoxy(12 + inc, posY + 1);
-                printf("%c%c%c", 204, 205, 185);
-                gotoxy(12 + inc, posY + 2);
-                printf("%c%c%c", 200, 205, 188);
+                gotoxy(14 + inc, posY);
+                printf("%c%c%c", 218, 196, 191);
+                gotoxy(14 + inc, posY + 1);
+                printf("%c%c%c", 195, 196, 180);
+                gotoxy(14 + inc, posY + 2);
+                printf("%c%c%c", 192, 196, 217);
                 break;
             case 9:
-                gotoxy(12 + inc, posY);
-                printf("%c%c%c", 201, 205, 187);
-                gotoxy(12 + inc, posY + 1);
-                printf("%c%c%c", 200, 205, 185);
-                gotoxy(12 + inc, posY + 2);
-                printf("  %c", 186);
+                gotoxy(14 + inc, posY);
+                printf("%c%c%c", 218, 196, 191);
+                gotoxy(14 + inc, posY + 1);
+                printf("%c%c%c", 192, 196, 180);
+                gotoxy(14 + inc, posY + 2);
+                printf("  %c", 179);
                 break;
         }
         d = con%10;
@@ -506,15 +507,17 @@ void Metodos::run(vector<Proceso> procesos, vector<Proceso> procesosAux)
 {
     vector <Proceso> proAux = procesos;
 
-    gotoxy(11, procesos.at(procesos.size()-1).getColT() + 2); cout<<"Contador";
+    // Imprimir el título del contador global
+    gotoxy(9, procesos.at(procesos.size()-1).getColT() + 2); cout<<"Contador Global";
 
-    sortAscending(proAux);
+    sortAscending(proAux); // Ordenar los procesos auxiliares
 
     int tme = proAux.at(proAux.size() - 1).getMaxVal()+1;
     int cont = tme - 1;
     int x = 0, y = 0;
     int inicio = 0, final = 0;
 
+    // Imprimir los identificadores de los procesos en pantalla
     for (size_t i (0) ; i < procesos.size() ; ++i)
     {
         SetColor(15); // Blanco
@@ -524,10 +527,13 @@ void Metodos::run(vector<Proceso> procesos, vector<Proceso> procesosAux)
         procesos.at(i).setTiempoTranscurrido(0);
     }
 
+    // Imprimir el contador
     imprimirContador(cont, procesos.at(procesos.size()-1).getColT() + 3);
+
     Proceso p;
     bool band = false;
 
+    // Ejecución de los procesos
     for (int i(0) ; i < tme ; ++i)
     {
         band = false;
@@ -554,8 +560,8 @@ void Metodos::run(vector<Proceso> procesos, vector<Proceso> procesosAux)
             Sleep(150);
 
         --cont;
-
         SetColor(15); // Blanco
+        // Actualizar el contador
         imprimirContador(cont, procesos.at(procesos.size()-1).getColT() + 3);
     }
 

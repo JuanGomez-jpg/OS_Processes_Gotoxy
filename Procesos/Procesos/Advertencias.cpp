@@ -23,7 +23,7 @@ void Advertencias::SetColor(int ForgC)
     {
         wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
         SetConsoleTextAttribute(hStdOut, wColor);
-   } //End
+    }
 
     return;
 }

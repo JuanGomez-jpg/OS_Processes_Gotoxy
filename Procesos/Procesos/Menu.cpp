@@ -209,7 +209,6 @@ void Menu::limpiarMenu()
         for (int i(55) ; i < 93; ++i)
         {
             gotoxy(i,j); cout<<" ";
-                //Sleep(1);
         }
     }
 }
@@ -411,8 +410,13 @@ void Menu::cerrar()
 
 void Menu::init()
 {
+    srand (time(NULL));
+
+    // Mando a llamar a la clase Métodos
     Metodos me;
+    // Mando a llamar a la clase de Advertencias
     Advertencias ad;
+
     int opc = 0, tme = 0;
     const int cantidadMaximaProcesos = PROCESOS_RESTANTES;
     int procesosRestantes = PROCESOS_RESTANTES;
