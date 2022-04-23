@@ -11,7 +11,7 @@ bool Validaciones::validarEntradaMenu(string resp)
     bool val = false;
     // Arreglo de char para almacenar la entrada
     char a[resp.size()];
-    //TamaÃ±o de la entrada
+    //Tamaño de la entrada
     int size = resp.size();
 
     for (int i(0) ; i < size; ++i) a[i] = resp.at(i);
@@ -41,7 +41,7 @@ bool Validaciones::validarEntradaProceso(string resp, int opc, int limSup)
     bool val = false;
     // Arreglo de char para almacenar la entrada
     char a[resp.size()];
-    //TamaÃ±o de la entrada
+    //Tamaño de la entrada
     int size = resp.size();
 
     for (int i(0) ; i < size; ++i) a[i] = resp.at(i);
@@ -81,7 +81,7 @@ bool Validaciones::validarEntradaModificar(string resp)
     bool val = false;
     // Arreglo de char para almacenar la entrada
     char a[resp.size()];
-    //TamaÃ±o de la entrada
+    //Tamaño de la entrada
     int size = resp.size();
 
     for (int i(0) ; i < size; ++i) a[i] = resp.at(i);
@@ -109,7 +109,7 @@ void Validaciones::validarProcesoExistente(string resp, vector<Proceso> &proceso
 {
     // Arreglo de char para almacenar la entrada
     char a[resp.size()];
-    //TamaÃ±o de la entrada
+    //Tamaño de la entrada
     int size = resp.size();
 
     for (int i(0) ; i < size; ++i) a[i] = resp.at(i);
@@ -144,6 +144,3 @@ void Validaciones::validarProcesoExistente(string resp, vector<Proceso> &proceso
         }
     }
 }
-
-
-

@@ -270,5 +270,3 @@ void Advertencias::advertenciaErrorMenu()
     }
     SetColor(15); // Blanco
 }
-
-

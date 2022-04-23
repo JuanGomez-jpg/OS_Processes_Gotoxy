@@ -1,0 +1,63 @@
+# depslib dependency file v1.0
+1650561724 source:c:\users\danie\desktop\dev\c++\procesostolerante\advertencias.cpp
+	"Advertencias.h"
+
+1650561740 c:\users\danie\desktop\dev\c++\procesostolerante\advertencias.h
+	<iostream>
+	<windows.h>
+	<vector>
+	"Proceso.h"
+
+1650586870 c:\users\danie\desktop\dev\c++\procesostolerante\proceso.h
+	<iostream>
+
+1650561641 source:c:\users\danie\desktop\dev\c++\procesostolerante\main.cpp
+	<iostream>
+	<windows.h>
+	<time.h>
+	"Menu.h"
+
+1650586685 c:\users\danie\desktop\dev\c++\procesostolerante\menu.h
+	<iostream>
+	<windows.h>
+	<cwchar>
+	<string>
+	<stdio.h>
+	<stdlib.h>
+	<cctype>
+	<vector>
+	<time.h>
+	"Proceso.h"
+	"Metodos.h"
+	<algorithm>
+
+1650588502 c:\users\danie\desktop\dev\c++\procesostolerante\metodos.h
+	<iostream>
+	<vector>
+	<windows.h>
+	<math.h>
+	<bits/stdc++.h>
+	<thread>
+	"Proceso.h"
+	"Menu.h"
+	"Advertencias.h"
+	"Validaciones.h"
+
+1650561931 c:\users\danie\desktop\dev\c++\procesostolerante\validaciones.h
+	<iostream>
+	<windows.h>
+	<vector>
+	"Proceso.h"
+
+1650586622 source:c:\users\danie\desktop\dev\c++\procesostolerante\menu.cpp
+	"Menu.h"
+
+1650592428 source:c:\users\danie\desktop\dev\c++\procesostolerante\metodos.cpp
+	"Metodos.h"
+
+1650586854 source:c:\users\danie\desktop\dev\c++\procesostolerante\proceso.cpp
+	"Proceso.h"
+
+1650561911 source:c:\users\danie\desktop\dev\c++\procesostolerante\validaciones.cpp
+	"Validaciones.h"
+

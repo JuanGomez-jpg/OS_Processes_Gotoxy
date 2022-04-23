@@ -24,7 +24,7 @@ void Menu::invocarInterfaz()
     }
 
     SetColor(15); // Blanco
-    // TÃ­tulo
+    // Título
     gotoxy(48,1); printf("Administraci%cn de Procesos", 162);
 
     SetColor(4); // Rojo
@@ -335,7 +335,7 @@ void Menu::mostrarProcesosAgregados(Proceso p, string action, int size)
         id += p.getIdP().at(i);
     }
 
-    // Comparar si el proceso a modificar no es el Ãºltimo de la tabla
+    // Comparar si el proceso a modificar no es el último de la tabla
     // Si lo es, entra al if y modificar los contornos de la tabla
     if (action == "mod" && size > atoi(id.c_str()))
     {
