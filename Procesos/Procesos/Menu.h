@@ -11,6 +11,7 @@
 #include <cctype>
 #include <vector>
 #include <time.h>
+#include <unistd.h>
 #include "Proceso.h"
 #include "Metodos.h"
 #include <algorithm>
@@ -33,6 +34,7 @@ public:
     void mostrarProcesosAgregados(Proceso p, string action, int size);
     void bubbleSort(vector<Proceso> &procesos);
     void limpiarPantallaCompleta();
+    void cerrar();
 
 private:
     vector<Proceso> procesos;

@@ -401,6 +401,14 @@ void Menu::limpiarPantallaCompleta()
     }
 }
 
+void Menu::cerrar()
+{
+    SetColor(15); // Blanco
+    gotoxy(47,14); cout<<"El programa se cerrar\240";
+    gotoxy(43,15); cout<<"Presione <ENTER> para terminar.";
+    gotoxy(40,16);
+}
+
 void Menu::init()
 {
     Metodos me;
@@ -468,10 +476,12 @@ void Menu::init()
                 break;
 
             case 5:
+                cerrar();
                 break;
         }
 
     }while(opc != 5);
+    exit(-1);
 }
 
 

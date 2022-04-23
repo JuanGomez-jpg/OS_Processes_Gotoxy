@@ -32,7 +32,7 @@ public:
     void sortAscending(vector<Proceso> &procesos);
     void runnable (int x, int y);
     void actualizarTablaProcesos(Proceso p);
-    void cuadroContador(int col);
+    void imprimirContador(int cont, int posY);
 
 private:
 
